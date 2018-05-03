@@ -81,6 +81,8 @@ deploy:jdk8:
   script:
     - 'apt-get update && apt-get -y install openjfx'
     - 'mvn $MAVEN_CLI_OPTS deploy'
+    - 'pwd'
+    - 'ls -la'
   only:
     - master
   # Archive up the built documentation site.
