@@ -81,28 +81,10 @@ deploy:jdk8:
   script:
     - 'apt-get update && apt-get -y install openjfx'
     - 'mvn $MAVEN_CLI_OPTS deploy'
-    - 'pwd'
-    - 'ls -la'
   only:
     - master
   # Archive up the built documentation site.
   artifacts:
     paths:
-    - target
+    - target/*.jar
   image: maven:3.3.9-jdk-8
-
-
-pages:
-  image: busybox:latest
-  stage: deploy
-  script:
-    # Because Maven appends the artifactId automatically to the staging path if you did define a parent pom,
-    # you might need to use `mv target/staging/YOUR_ARTIFACT_ID public` instead.
-    - mv target/*.jar public
-  dependencies:
-    - deploy:jdk8
-  artifacts:
-    paths:
-    - public
-  only:
-    - master
