@@ -8,38 +8,42 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Main extends Application {
+public class Main extends Application
+{
 
-    private Stage primaryStage;
-    private AnchorPane rootLayout;
+	private Stage primaryStage;
+	private AnchorPane rootLayout;
 
-    private static String APP_NAME = "Multiple Executors";
-    private static String VERSION = "v 0.1";
+	private static String APP_NAME = "Multiple Executors";
+	private static String VERSION = "v 0.1";
 
-    public static void main(String args[]) {
-        launch(args);
-    }
+	public static void main(String args[])
+	{
+		launch(args);
+	}
 
-    public void start(Stage stage) {
-        this.primaryStage = stage;
-        initLayout();
-    }
+	public void start(Stage stage)
+	{
+		this.primaryStage = stage;
+		initLayout();
+	}
 
-    private void initLayout() {
-        String fxmlFile = "/fxml/main.fxml";
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource(fxmlFile));
+	private void initLayout()
+	{
+		String fxmlFile = "/fxml/main.fxml";
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource(fxmlFile));
 
-        try {
-            rootLayout = loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
+		try {
+			rootLayout = loader.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
 
-        Scene scene = new Scene(rootLayout);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle(APP_NAME + " " + VERSION );
-        primaryStage.show();
-    }
+		Scene scene = new Scene(rootLayout);
+		primaryStage.setScene(scene);
+		primaryStage.setTitle(APP_NAME + " " + VERSION);
+		primaryStage.show();
+	}
 }
