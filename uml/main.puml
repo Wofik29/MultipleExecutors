@@ -1,0 +1,41 @@
+@startuml
+
+class Game {
+
+}
+
+package Unit {
+    Class Executor <<Commands.Executor>>{
+
+    }
+
+    note as n2
+    Тут должны быть классы самих юнитов
+    Сюда же можно запихать класс командного центра
+    endnote
+}
+
+package Commands {
+
+    class Compiler {
+
+    }
+
+    interface Executor {
+        +getX()
+        +getY()
+        +setX()
+        +setY()
+    }
+
+    interface Command {
+        +execute()
+    }
+
+note as n1
+Команды для выполнения исполнителем
+Должны быть слабосвязными и оперировать интерфейсами
+endnote
+}
+
+@enduml
