@@ -1,6 +1,8 @@
 package org.wolf.MultipleExecutors;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -53,5 +55,20 @@ public class Main extends Application
 		MainController controller = loader.getController();
 		controller.setMap(game.map);
 		controller.startTimer(this.game);
+
+		primaryStage.widthProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
+			{
+				controller.resize();
+			}
+		});
+		primaryStage.heightProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
+			{
+				controller.resize();
+			}
+		});
 	}
 }

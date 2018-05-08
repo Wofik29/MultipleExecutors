@@ -9,6 +9,12 @@ public class Canvas extends javafx.scene.canvas.Canvas
 	private Cell[][] map;
 	private int widthCell = 15;
 
+	@Override
+	public boolean isResizable()
+	{
+		return true;
+	}
+
 	public void setMap(Cell[][] map)
 	{
 		this.map = map;
@@ -21,7 +27,7 @@ public class Canvas extends javafx.scene.canvas.Canvas
 		gx.fillRect(0, 0, getWidth(), getHeight());
 	}
 
-	public void drawMap()
+	public void draw()
 	{
 		if (map == null) {
 			return;
