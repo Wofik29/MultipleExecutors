@@ -4,12 +4,12 @@ import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import org.wolf.MultipleExecutors.Canvas;
+import org.wolf.MultipleExecutors.Cell;
+import org.wolf.MultipleExecutors.Game;
 
 public class MainController
 {
-
 	private Canvas canvas;
 
 	@FXML
@@ -18,7 +18,6 @@ public class MainController
 	@FXML
 	private void initialize()
 	{
-		System.out.println("INIT");
 		final double w = parent.getPrefWidth();
 		final double h = parent.getPrefHeight();
 
@@ -30,6 +29,10 @@ public class MainController
 		parent.getChildren().add(canvas);
 		canvas.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> canvas.requestFocus());
 
+	}
+
+	public void startTimer(Game game)
+	{
 		new AnimationTimer()
 		{
 			@Override
@@ -37,9 +40,13 @@ public class MainController
 			{
 				canvas.clear();
 				canvas.drawMap();
+				game.step();
 			}
 		}.start();
-
 	}
 
+	public void setMap(Cell[][] map)
+	{
+		canvas.setMap(map);
+	}
 }

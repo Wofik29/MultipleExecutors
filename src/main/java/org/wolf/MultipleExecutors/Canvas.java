@@ -6,10 +6,10 @@ import javafx.scene.paint.Color;
 public class Canvas extends javafx.scene.canvas.Canvas
 {
 
-	private byte[][] map;
-	private int widthCell = 50;
+	private Cell[][] map;
+	private int widthCell = 15;
 
-	public void setMap(byte[][] map)
+	public void setMap(Cell[][] map)
 	{
 		this.map = map;
 	}
@@ -27,12 +27,12 @@ public class Canvas extends javafx.scene.canvas.Canvas
 			return;
 		}
 
-		getGraphicsContext2D().setStroke(Color.BLACK);
-		getGraphicsContext2D().setFill(Color.BLACK);
 		getGraphicsContext2D().setLineWidth(2);
 		for (int x = 0; x < map.length; x++) {
 			for (int y = 0; y < map[x].length; y++) {
-				getGraphicsContext2D().strokeRect(x * widthCell, y * widthCell, widthCell, widthCell);
+				getGraphicsContext2D().setStroke(map[x][y].color);
+				getGraphicsContext2D().setFill(map[x][y].color);
+				getGraphicsContext2D().fillRect(x * widthCell, y * widthCell, widthCell, widthCell);
 			}
 		}
 

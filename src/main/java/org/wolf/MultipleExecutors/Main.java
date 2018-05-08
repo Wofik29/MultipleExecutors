@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.wolf.MultipleExecutors.controllers.MainController;
 
 import java.io.IOException;
 
@@ -13,6 +14,7 @@ public class Main extends Application
 
 	private Stage primaryStage;
 	private AnchorPane rootLayout;
+	private Game game;
 
 	private static String APP_NAME = "Multiple Executors";
 	private static String VERSION = "v 0.1";
@@ -25,6 +27,10 @@ public class Main extends Application
 	public void start(Stage stage)
 	{
 		this.primaryStage = stage;
+		primaryStage.setTitle(APP_NAME + " " + VERSION);
+		primaryStage.show();
+
+		this.game = new Game();
 		initLayout();
 	}
 
@@ -43,7 +49,9 @@ public class Main extends Application
 
 		Scene scene = new Scene(rootLayout);
 		primaryStage.setScene(scene);
-		primaryStage.setTitle(APP_NAME + " " + VERSION);
-		primaryStage.show();
+
+		MainController controller = loader.getController();
+		controller.setMap(game.map);
+		controller.startTimer(this.game);
 	}
 }
