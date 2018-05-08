@@ -1,41 +1,41 @@
 @startuml
+!include Commands.puml
+!include Unit.puml
 
-class Game {
-
+package controllers {
+    class MainController {
+        Контроллер окна
+        Определяет инициализацию и поведение окна
+    }
 }
 
-package Unit {
-    Class Executor <<Commands.Executor>>{
+package Main {
 
+    class Game {
+        Определяет общее движение всей игры
+        Определяет кол-во исполнителей
+        Определяет карту
+        Определяет конечную цель - что и сколько собрать
+        Генерирует цели сбора и расбрасывает по карты
     }
 
-    note as n2
-    Тут должны быть классы самих юнитов
-    Сюда же можно запихать класс командного центра
-    endnote
-}
+    Enum Cell {
+    Определяет виды клеток
+        +Ground
+        +Water
+    }
 
-package Commands {
+
+    class Canvas {
+        Отрисовка поля и элементов
+    }
+
 
     class Compiler {
-
+        Переводит алгоритм, написанный пользователем
+        в понятную последовательность команд для программы
     }
 
-    interface Executor {
-        +getX()
-        +getY()
-        +setX()
-        +setY()
-    }
-
-    interface Command {
-        +execute()
-    }
-
-note as n1
-Команды для выполнения исполнителем
-Должны быть слабосвязными и оперировать интерфейсами
-endnote
 }
 
 @enduml

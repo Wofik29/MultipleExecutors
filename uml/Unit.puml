@@ -1,0 +1,59 @@
+@startuml
+
+package unit {
+    interface Executor{
+    	+stepForward():void;
+    	+turnRight():void;
+    	+turnLeft():void;
+    }
+
+
+    Enum Direction {
+    Перечень направления исполнителя
+        +Up
+        +Down
+        +Left
+        +Right
+    }
+
+    abstract class Unit <implements Executor> {
+        -int x;
+        -int y;
+        -Direction direction;
+
+        +getX():int;
+        +getY():int;
+        +setX(int x):void;
+        +setY(int y):void;
+    }
+
+    class Explorer <extends Unit> {
+
+    }
+
+    class Harvester <extends Unit> {
+
+    }
+
+    class ControlCenter {
+        -explorers: Executor[]
+        -harvesters: Executor[]
+        -game: Game
+        +step():void
+        Определяет поведения главного здания
+        Должен выпускать исполнителей-искателей
+        По команде должен выпускать исполнителей-сборщиков
+        Дается команда на шаг исполнителя
+        В нем находятся алгоритмы, написанные пользователем
+        Нужно как то запоминать место алгоритма, в котором находится каждый исполнитель
+    }
+
+    Direction -[hidden]- ControlCenter
+    Unit -[hidden]u- ControlCenter
+
+    Unit --> Executor
+    Explorer -l-> Unit
+    Harvester -u-> Unit
+}
+
+@enduml

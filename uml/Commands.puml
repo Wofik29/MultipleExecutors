@@ -1,0 +1,65 @@
+@startuml
+
+package commands {
+
+    enum Commands {
+        Определяет перечисление всех команд
+        +Forward
+        +Left
+        +Right
+        +Back
+    }
+
+    class RuntimeErrorException <extends Exception>{
+    }
+
+    interface Command {
+        +execute(Executor executor):boolean
+    }
+
+    abstract class Queue <implements Command> {
+        #commands: List<Command>
+        #currentCommand: int
+        +add(Command):void
+    }
+
+    class MainLoop <extends Queue> {
+        Просто головной контейнер
+    }
+
+    class IfTerm <extends Command> {
+        -when: List<Command>
+        -else: List<Command>
+        -condition: string
+        -isCheck: boolean
+        Если есть, то мы уже в ветке
+        и не надо пересчитывать условие
+
+        +addWhen(Command):void
+        +addElse(Command):void
+    }
+
+    class WhileLoop <extends Queue> {
+        -condition: string
+        -isCheck: boolean
+        Будет истина, когда условие не пройдет
+    }
+
+    class Forward <implements Command>
+    class Left <implements Command>
+    class Right <implements Command>
+    class Back <implements Command>
+
+    Left -[hidden]r-> Commands
+
+    Queue -u-> Command
+    Left -l-> Command
+    Right -r-> Command
+    Forward --> Command
+    Back --> Command
+    IfTerm -u-> Command
+    MainLoop -u-> Queue
+    Queue <-u- WhileLoop
+}
+
+@enduml
