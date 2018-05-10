@@ -17,6 +17,7 @@ public class Main extends Application
 {
 
 	private Stage primaryStage;
+	private Stage secondStage;
 	private Game game;
 	private State state;
 	private String currentLayout = "";
@@ -32,8 +33,11 @@ public class Main extends Application
 	public void start(Stage stage)
 	{
 		this.primaryStage = stage;
+		this.secondStage = new Stage();
 		primaryStage.setTitle(APP_NAME + " " + VERSION);
 		primaryStage.show();
+
+		secondStage.setTitle("Editor");
 
 		this.game = new Game(this);
 		setStage(State.Welcome);
@@ -100,8 +104,28 @@ public class Main extends Application
 						controller.resize();
 					}
 				});
+
+				initSecondLayout();
+				secondStage.show();
 				break;
 		}
+	}
+
+	private void initSecondLayout()
+	{
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("/fxml/editor.fxml"));
+
+		AnchorPane rootLayout = null;
+		try {
+			rootLayout = loader.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+
+		Scene scene = new Scene(rootLayout);
+		secondStage.setScene(scene);
 	}
 
 	private void clear()
