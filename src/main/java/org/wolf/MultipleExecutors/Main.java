@@ -36,6 +36,9 @@ public class Main extends Application
 		this.secondStage = new Stage();
 		primaryStage.setTitle(APP_NAME + " " + VERSION);
 		primaryStage.show();
+		primaryStage.setOnCloseRequest(event -> {
+			secondStage.close();
+		});
 
 		secondStage.setTitle("Editor");
 
