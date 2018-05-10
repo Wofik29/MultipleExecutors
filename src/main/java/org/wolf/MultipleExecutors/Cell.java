@@ -6,7 +6,8 @@ public enum Cell
 {
 	Ground(Color.BROWN, "Земля"),
 	Water(Color.AQUA, "Вода"),
-	Unit(Color.RED, "Исполнитель");
+	Unit(Color.RED, "Исполнитель"),
+	Center(Color.BLACK, "Командный центр");
 
 	public Color color;
 	public String title;
