@@ -4,6 +4,7 @@ import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import org.wolf.MultipleExecutors.Canvas;
 import org.wolf.MultipleExecutors.Cell;
 import org.wolf.MultipleExecutors.Game;
@@ -16,11 +17,14 @@ public class MainController
 	private AnchorPane parent;
 
 	@FXML
+	private BorderPane borderPane;
+
+	@FXML
 	private void initialize()
 	{
 		canvas = new Canvas();
+		borderPane.setCenter(canvas);
 		resize();
-		parent.getChildren().add(canvas);
 		canvas.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> canvas.requestFocus());
 	}
 
