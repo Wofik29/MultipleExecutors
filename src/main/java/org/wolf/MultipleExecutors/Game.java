@@ -1,38 +1,102 @@
 package org.wolf.MultipleExecutors;
 
+import javafx.scene.input.KeyEvent;
+import org.wolf.MultipleExecutors.commands.CommandException;
+import org.wolf.MultipleExecutors.unit.ControlCenter;
+import org.wolf.MultipleExecutors.unit.Executor;
+
 import java.util.Random;
 
 public class Game
 {
+	Main application;
+
 	/**
 	 * Delay of update
 	 */
 	public static int DELAY = 40;
 	public int widthMap;
 	public int heightMap;
+	public int countExplorer = 1;
+	public int countHarvester = 0;
 
 	public Cell[][] map;
+	private ControlCenter center;
+	private State state = State.Welcome;
 
-	public Game()
+	public static int MAX_ALLOW_EXPLORER = 10;
+	public static int MAX_ALLOW_HARVESTER = 5;
+
+	public Game(Main application)
 	{
-		widthMap = 50;
-		heightMap = 50;
+		this.application = application;
+		widthMap = 100;
+		heightMap = 100;
+	}
+
+	public void init()
+	{
 		map = new Cell[widthMap][heightMap];
 
 		Random random = new Random();
-		for (int i = 0; i < 50; i++) {
-			for (int j = 0; j < 50; j++) {
+		for (int i = 0; i < widthMap; i++) {
+			for (int j = 0; j < heightMap; j++) {
 				int next = random.nextInt(10);
-				if (next > 7) {
+				if (next > 8) {
 					map[i][j] = Cell.Water;
 				} else {
 					map[i][j] = Cell.Ground;
 				}
 			}
 		}
+		center = new ControlCenter(widthMap / 2, heightMap / 2, this, 1, 0);
 	}
 
-	public void step() {
-		System.out.println("Game step");
+	public void changeState(State state)
+	{
+		this.state = state;
+		application.setStage(State.EditExplorer);
+	}
+
+	public void input(KeyEvent event)
+	{
+		Executor[] explorers = center.getExplorers();
+		switch (event.getCode()) {
+			case A:
+				explorers[0].turnLeft();
+				break;
+			case D:
+				explorers[0].turnRight();
+				break;
+			case W:
+				try {
+					explorers[0].stepForward();
+				} catch (CommandException ex) {
+
+				}
+				break;
+			case S:
+				try {
+					explorers[0].stepBack();
+				} catch (CommandException ex) {
+
+				}
+				break;
+		}
+	}
+
+	public void step()
+	{
+		switch (state) {
+			case Pause:
+				break;
+			case Play:
+				center.step();
+				break;
+			case EditExplorer:
+				break;
+			case EditHarvester:
+				break;
+		}
 	}
 }

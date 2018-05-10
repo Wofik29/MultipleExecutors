@@ -8,15 +8,18 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.wolf.MultipleExecutors.controllers.MainController;
+import org.wolf.MultipleExecutors.controllers.WelcomeController;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class Main extends Application
 {
 
 	private Stage primaryStage;
-	private AnchorPane rootLayout;
 	private Game game;
+	private State state;
+	private String currentLayout = "";
 
 	private static String APP_NAME = "Multiple Executors";
 	private static String VERSION = "v 0.1";
@@ -32,16 +35,34 @@ public class Main extends Application
 		primaryStage.setTitle(APP_NAME + " " + VERSION);
 		primaryStage.show();
 
-		this.game = new Game();
-		initLayout();
+		this.game = new Game(this);
+		setStage(State.Welcome);
 	}
 
-	private void initLayout()
+	public void setStage(State state)
 	{
-		String fxmlFile = "/fxml/main.fxml";
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(getClass().getResource(fxmlFile));
+		this.state = state;
+		setLayout();
+	}
 
+	private void setLayout()
+	{
+		HashMap<State, String> fxmls = new HashMap<>();
+		fxmls.put(State.Pause, "/fxml/main.fxml");
+		fxmls.put(State.Play, "/fxml/main.fxml");
+		fxmls.put(State.EditExplorer, "/fxml/main.fxml");
+		fxmls.put(State.EditHarvester, "/fxml/main.fxml");
+		fxmls.put(State.Welcome, "/fxml/welcome.fxml");
+
+		if (currentLayout.equals(fxmls.get(state))) {
+			return;
+		}
+
+		currentLayout = fxmls.get(state);
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource(fxmls.get(state)));
+
+		AnchorPane rootLayout = null;
 		try {
 			rootLayout = loader.load();
 		} catch (IOException e) {
@@ -52,23 +73,39 @@ public class Main extends Application
 		Scene scene = new Scene(rootLayout);
 		primaryStage.setScene(scene);
 
-		MainController controller = loader.getController();
-		controller.setMap(game.map);
-		controller.startTimer(this.game);
+		switch (state) {
+			case Welcome:
+				WelcomeController welcomeController = loader.getController();
+				welcomeController.game = game;
+				break;
+			case EditExplorer: case EditHarvester: case Play: case Pause:
+				MainController controller = loader.getController();
+				game.init();
+				controller.setMap(game.map);
+				controller.startTimer(this.game);
 
-		primaryStage.widthProperty().addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
-			{
-				controller.resize();
-			}
-		});
-		primaryStage.heightProperty().addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
-			{
-				controller.resize();
-			}
-		});
+				primaryStage.widthProperty().addListener(new ChangeListener<Number>()
+				{
+					@Override
+					public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
+					{
+						controller.resize();
+					}
+				});
+				primaryStage.heightProperty().addListener(new ChangeListener<Number>()
+				{
+					@Override
+					public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
+					{
+						controller.resize();
+					}
+				});
+				break;
+		}
+	}
+
+	private void clear()
+	{
+
 	}
 }
