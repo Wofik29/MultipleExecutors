@@ -78,21 +78,19 @@ public abstract class Unit implements Executor
 	public void stepForward() throws CommandException
 	{
 		checkCell();
-		step();
+		game.map[x][y] = currentCell;
+		this.x += stepX;
+		this.y += stepY;
+		flipMapCell();
 	}
 
 	@Override
 	public void stepBack() throws CommandException
 	{
 		checkCell();
-		step();
-	}
-
-	public void step()
-	{
 		game.map[x][y] = currentCell;
-		this.x += stepX;
-		this.y += stepY;
+		this.x -= stepX;
+		this.y -= stepY;
 		flipMapCell();
 	}
 
