@@ -26,6 +26,33 @@ public class MainController
 
 	public void startTimer(Game game)
 	{
+		canvas.setOnScroll(event -> {
+			int delta = (int) event.getDeltaY() / 10;
+			canvas.widthCell += delta;
+		});
+		canvas.setOnKeyPressed(event -> {
+			game.input(event);
+			switch (event.getCode()) {
+				case LEFT:
+					canvas.shiftLeft += 2 * canvas.widthCell;
+					break;
+				case RIGHT:
+					canvas.shiftLeft -= 2 * canvas.widthCell;
+					break;
+				case UP:
+					canvas.shiftUp += 2 * canvas.widthCell;
+					break;
+				case DOWN:
+					canvas.shiftUp -= 2 * canvas.widthCell;
+					break;
+				case ADD: case EQUALS: case PLUS:
+					canvas.widthCell += 2;
+					break;
+				case MINUS: case SUBTRACT:
+					canvas.widthCell -= 2;
+					break;
+			}
+		});
 
 		new AnimationTimer()
 		{
