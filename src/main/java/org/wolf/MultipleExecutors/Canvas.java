@@ -8,6 +8,8 @@ public class Canvas extends javafx.scene.canvas.Canvas
 
 	private Cell[][] map;
 	private int widthCell = 15;
+	public int shiftLeft;
+	public int shiftUp;
 
 	@Override
 	public boolean isResizable()
@@ -38,7 +40,7 @@ public class Canvas extends javafx.scene.canvas.Canvas
 			for (int y = 0; y < map[x].length; y++) {
 				getGraphicsContext2D().setStroke(map[x][y].color);
 				getGraphicsContext2D().setFill(map[x][y].color);
-				getGraphicsContext2D().fillRect(x * widthCell, y * widthCell, widthCell, widthCell);
+				getGraphicsContext2D().fillRect(x * widthCell + shiftLeft, y * widthCell + shiftUp, widthCell, widthCell);
 			}
 		}
 
