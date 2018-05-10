@@ -8,10 +8,12 @@ import javafx.scene.layout.BorderPane;
 import org.wolf.MultipleExecutors.Canvas;
 import org.wolf.MultipleExecutors.Cell;
 import org.wolf.MultipleExecutors.Game;
+import org.wolf.MultipleExecutors.Main;
 
 public class MainController
 {
 	private Canvas canvas;
+	private Main application;
 
 	@FXML
 	private AnchorPane parent;
@@ -26,6 +28,15 @@ public class MainController
 		borderPane.setCenter(canvas);
 		resize();
 		canvas.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> canvas.requestFocus());
+	}
+
+	@FXML
+	public void showEditor()
+	{
+		System.out.println("SHOW");
+		if (application != null) {
+			application.showSecondStage();
+		}
 	}
 
 	public void startTimer(Game game)
@@ -49,10 +60,13 @@ public class MainController
 				case DOWN:
 					canvas.shiftUp -= 2 * canvas.widthCell;
 					break;
-				case ADD: case EQUALS: case PLUS:
+				case ADD:
+				case EQUALS:
+				case PLUS:
 					canvas.widthCell += 2;
 					break;
-				case MINUS: case SUBTRACT:
+				case MINUS:
+				case SUBTRACT:
 					canvas.widthCell -= 2;
 					break;
 			}
@@ -88,5 +102,10 @@ public class MainController
 	public void setMap(Cell[][] map)
 	{
 		canvas.setMap(map);
+	}
+
+	public void setApplication(Main application)
+	{
+		this.application = application;
 	}
 }

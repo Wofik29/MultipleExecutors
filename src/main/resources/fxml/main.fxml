@@ -14,7 +14,7 @@
               <menus>
                 <Menu mnemonicParsing="false" text="Файл">
                   <items>
-                        <MenuItem mnemonicParsing="false" text="Открыть редактор" />
+                        <MenuItem mnemonicParsing="false" onAction="#showEditor" text="Открыть редактор" />
                     <MenuItem mnemonicParsing="false" text="Закрыть" />
                   </items>
                 </Menu>

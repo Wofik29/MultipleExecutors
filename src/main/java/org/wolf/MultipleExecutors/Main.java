@@ -52,6 +52,14 @@ public class Main extends Application
 		setLayout();
 	}
 
+	public void showSecondStage()
+	{
+		if (state != State.Welcome) {
+			secondStage.show();
+			System.out.println("SHOW");
+		}
+	}
+
 	private void setLayout()
 	{
 		HashMap<State, String> fxmls = new HashMap<>();
@@ -90,6 +98,7 @@ public class Main extends Application
 				game.init();
 				controller.setMap(game.map);
 				controller.startTimer(this.game);
+				controller.setApplication(this);
 
 				primaryStage.widthProperty().addListener(new ChangeListener<Number>()
 				{
