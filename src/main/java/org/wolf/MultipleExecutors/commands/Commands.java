@@ -1,10 +1,11 @@
 package org.wolf.MultipleExecutors.commands;
 
-import org.wolf.MultipleExecutors.commands.Command;
-
 public enum Commands
 {
-	Forward;
+	Forward,
+	TurnLeft,
+	TurnRight,
+	Back;
 
 	private Command command;
 }

@@ -62,6 +62,12 @@ public class ControlCenter
 
 	public void step()
 	{
+		for (Executor harvester : harvesters) {
+			harvester.step();
+		}
 
+		for (Executor explorer : explorers) {
+			explorer.step();
+		}
 	}
 }

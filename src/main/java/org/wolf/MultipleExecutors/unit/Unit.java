@@ -3,6 +3,7 @@ package org.wolf.MultipleExecutors.unit;
 import org.wolf.MultipleExecutors.Cell;
 import org.wolf.MultipleExecutors.Game;
 import org.wolf.MultipleExecutors.commands.CommandException;
+import org.wolf.MultipleExecutors.commands.Commands;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,7 @@ public abstract class Unit implements Executor
 	protected int y;
 	protected int stepX;
 	protected int stepY;
+	protected int current = 0;
 	protected Direction direction;
 	protected Cell currentCell;
 
@@ -92,6 +94,42 @@ public abstract class Unit implements Executor
 		this.x -= stepX;
 		this.y -= stepY;
 		flipMapCell();
+	}
+
+	@Override
+	public void step()
+	{
+		if (this.current > algorithm.size() - 1) {
+			return;
+		}
+		String[] current = algorithm.get(this.current);
+
+		if (current == null) {
+			return;
+		}
+
+		Commands command = Commands.valueOf(current[0]);
+
+		try {
+			switch (command) {
+				case Forward:
+					stepForward();
+					break;
+				case Back:
+					stepBack();
+					break;
+				case TurnLeft:
+					turnLeft();
+					break;
+				case TurnRight:
+					turnRight();
+					break;
+			}
+		} catch (CommandException ex) {
+
+		}
+
+		this.current += 1;
 	}
 
 	@Override

@@ -1,13 +1,14 @@
 package org.wolf.MultipleExecutors.unit;
 
-import org.wolf.MultipleExecutors.commands.Command;
 import org.wolf.MultipleExecutors.commands.CommandException;
+
+import java.util.HashMap;
 
 public interface Executor
 {
-	public Command[][] algorithm = {};
-	public int current = 0;
+	HashMap<Integer, String[]> algorithm = new HashMap<>();
 
+	void step();
 	void checkCell() throws CommandException;
 	void stepForward() throws CommandException;
 	void stepBack() throws CommandException;
