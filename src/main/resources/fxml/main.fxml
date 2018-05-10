@@ -20,8 +20,8 @@
                 </Menu>
                   <Menu mnemonicParsing="false" text="Исполнитель">
                     <items>
-                      <MenuItem mnemonicParsing="false" text="Запуск" />
-                        <MenuItem mnemonicParsing="false" text="Пауза" />
+                      <MenuItem mnemonicParsing="false" onAction="#playState" text="Запуск" />
+                        <MenuItem mnemonicParsing="false" onAction="#pauseState" text="Пауза" />
                     </items>
                   </Menu>
                 <Menu mnemonicParsing="false" text="Помощь">

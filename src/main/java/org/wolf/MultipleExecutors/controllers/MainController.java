@@ -5,15 +5,13 @@ import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import org.wolf.MultipleExecutors.Canvas;
-import org.wolf.MultipleExecutors.Cell;
-import org.wolf.MultipleExecutors.Game;
-import org.wolf.MultipleExecutors.Main;
+import org.wolf.MultipleExecutors.*;
 
 public class MainController
 {
 	private Canvas canvas;
 	private Main application;
+	private Game game;
 
 	@FXML
 	private AnchorPane parent;
@@ -37,6 +35,18 @@ public class MainController
 		if (application != null) {
 			application.showSecondStage();
 		}
+	}
+
+	@FXML
+	public void playState()
+	{
+		game.changeState(State.Play);
+	}
+
+	@FXML
+	public void pauseState()
+	{
+		game.changeState(State.Pause);
 	}
 
 	public void startTimer(Game game)
@@ -107,5 +117,10 @@ public class MainController
 	public void setApplication(Main application)
 	{
 		this.application = application;
+	}
+
+	public void setGame(Game game)
+	{
+		this.game = game;
 	}
 }

@@ -99,6 +99,7 @@ public class Main extends Application
 				controller.setMap(game.map);
 				controller.startTimer(this.game);
 				controller.setApplication(this);
+				controller.setGame(game);
 
 				primaryStage.widthProperty().addListener(new ChangeListener<Number>()
 				{
