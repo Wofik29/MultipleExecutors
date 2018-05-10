@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -18,19 +17,16 @@
          <top>
             <MenuBar BorderPane.alignment="CENTER">
               <menus>
-                <Menu mnemonicParsing="false" text="File">
+                <Menu mnemonicParsing="false" text="Файл">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Close" />
+                    <MenuItem mnemonicParsing="false" text="Сохранить..." />
+                        <MenuItem mnemonicParsing="false" text="Загрузить..." />
                   </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
+                <Menu mnemonicParsing="false" text="Помощь">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Delete" />
-                  </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
+                        <MenuItem mnemonicParsing="false" text="Синтаксис" />
+                    <MenuItem mnemonicParsing="false" text="О программе" />
                   </items>
                 </Menu>
               </menus>
