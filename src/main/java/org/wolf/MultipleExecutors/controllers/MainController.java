@@ -2,9 +2,11 @@ package org.wolf.MultipleExecutors.controllers;
 
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import org.wolf.MultipleExecutors.*;
 
 public class MainController
@@ -20,12 +22,17 @@ public class MainController
 	private BorderPane borderPane;
 
 	@FXML
+	private Label message;
+
+	@FXML
 	private void initialize()
 	{
 		canvas = new Canvas();
 		borderPane.setCenter(canvas);
 		resize();
 		canvas.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> canvas.requestFocus());
+		message.setText("Редактирование алгоритма для искателя");
+		message.setTextFill(Color.valueOf("EEE413"));
 	}
 
 	@FXML
@@ -40,12 +47,16 @@ public class MainController
 	@FXML
 	public void playState()
 	{
+		message.setText("Проигрывание алгоритма");
+		message.setTextFill(Color.valueOf("1DE037"));
 		game.changeState(State.Play);
 	}
 
 	@FXML
 	public void pauseState()
 	{
+		message.setText("Пауза");
+		message.setTextFill(Color.valueOf("EEE413"));
 		game.changeState(State.Pause);
 	}
 
