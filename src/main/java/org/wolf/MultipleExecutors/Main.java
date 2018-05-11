@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.wolf.MultipleExecutors.controllers.EditorController;
 import org.wolf.MultipleExecutors.controllers.MainController;
 import org.wolf.MultipleExecutors.controllers.WelcomeController;
 
@@ -139,6 +140,8 @@ public class Main extends Application
 
 		Scene scene = new Scene(rootLayout);
 		secondStage.setScene(scene);
+		EditorController editorController = loader.getController();
+		game.addObserver(editorController);
 	}
 
 	private void clear()

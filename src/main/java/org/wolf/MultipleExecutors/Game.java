@@ -5,11 +5,15 @@ import org.wolf.MultipleExecutors.commands.CommandException;
 import org.wolf.MultipleExecutors.unit.ControlCenter;
 import org.wolf.MultipleExecutors.unit.Executor;
 
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
 
-public class Game
+public class Game extends Observable
 {
 	Main application;
+	ArrayList<Observer> observers = new ArrayList<>();
 
 	/**
 	 * Delay of update
@@ -55,7 +59,14 @@ public class Game
 	public void changeState(State state)
 	{
 		this.state = state;
-		application.setStage(State.EditExplorer);
+		application.setStage(state);
+		this.setChanged();
+		notifyObservers();
+	}
+
+	public State getState()
+	{
+		return state;
 	}
 
 	public void input(KeyEvent event)
