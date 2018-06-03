@@ -6,6 +6,7 @@ import org.wolf.MultipleExecutors.commands.CommandException;
 import org.wolf.MultipleExecutors.commands.Commands;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class Unit implements Executor
 {
@@ -38,6 +39,13 @@ public abstract class Unit implements Executor
 	public void setY(int y)
 	{
 		this.y = y;
+	}
+
+	@Override
+	public void setAlgorithm(HashMap<Integer, String[]> algorithm)
+	{
+		algorithm.clear();
+		algorithm.putAll(algorithm);
 	}
 
 	Unit(int x, int y, Game game)
@@ -112,16 +120,16 @@ public abstract class Unit implements Executor
 
 		try {
 			switch (command) {
-				case Forward:
+				case forward:
 					stepForward();
 					break;
-				case Back:
+				case back:
 					stepBack();
 					break;
-				case TurnLeft:
+				case turn_left:
 					turnLeft();
 					break;
-				case TurnRight:
+				case turn_right:
 					turnRight();
 					break;
 			}
