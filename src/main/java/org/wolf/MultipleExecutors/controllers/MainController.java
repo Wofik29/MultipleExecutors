@@ -9,7 +9,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import org.wolf.MultipleExecutors.*;
 
-public class MainController
+import java.util.Observable;
+import java.util.Observer;
+
+public class MainController implements Observer
 {
 	private Canvas canvas;
 	private Main application;
@@ -38,7 +41,6 @@ public class MainController
 	@FXML
 	public void showEditor()
 	{
-		System.out.println("SHOW");
 		if (application != null) {
 			application.showSecondStage();
 		}
@@ -47,17 +49,25 @@ public class MainController
 	@FXML
 	public void playState()
 	{
-		message.setText("Проигрывание алгоритма");
-		message.setTextFill(Color.valueOf("1DE037"));
 		game.changeState(State.Play);
 	}
 
 	@FXML
 	public void pauseState()
 	{
+		game.changeState(State.Pause);
+	}
+
+	private void playDisplay()
+	{
+		message.setText("Проигрывание алгоритма");
+		message.setTextFill(Color.valueOf("1DE037"));
+	}
+
+	private void pauseDisplay()
+	{
 		message.setText("Пауза");
 		message.setTextFill(Color.valueOf("EEE413"));
-		game.changeState(State.Pause);
 	}
 
 	public void startTimer(Game game)
@@ -133,5 +143,21 @@ public class MainController
 	public void setGame(Game game)
 	{
 		this.game = game;
+	}
+
+	@Override
+	public void update(Observable o, Object arg)
+	{
+		Game g = (Game) o;
+		switch (g.getState()) {
+			case EditExplorer:
+			case EditHarvester:
+			case Pause:
+				pauseDisplay();
+				break;
+			case Welcome:
+			case Play:
+				playDisplay();
+		}
 	}
 }

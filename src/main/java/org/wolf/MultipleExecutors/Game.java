@@ -2,6 +2,7 @@ package org.wolf.MultipleExecutors;
 
 import javafx.scene.input.KeyEvent;
 import org.wolf.MultipleExecutors.commands.CommandException;
+import org.wolf.MultipleExecutors.controllers.EditorController;
 import org.wolf.MultipleExecutors.unit.ControlCenter;
 import org.wolf.MultipleExecutors.unit.Executor;
 
@@ -14,6 +15,7 @@ public class Game extends Observable
 {
 	Main application;
 	ArrayList<Observer> observers = new ArrayList<>();
+	EditorController editorController;
 
 	/**
 	 * Delay of update
@@ -58,8 +60,17 @@ public class Game extends Observable
 
 	public void changeState(State state)
 	{
+		if (state == State.Play) {
+			try {
+				center.updateExplorerAlgorithm(editorController.explorer.getText());
+			} catch (CommandException ex) {
+				editorController.setMessage(ex.getMessage());
+				return;
+			}
+		}
 		this.state = state;
 		application.setStage(state);
+		application.getPrimaryStage().setFocused(true);
 		this.setChanged();
 		notifyObservers();
 	}
@@ -67,6 +78,11 @@ public class Game extends Observable
 	public State getState()
 	{
 		return state;
+	}
+
+	public void setEditorController(EditorController editorController)
+	{
+		this.editorController = editorController;
 	}
 
 	public void input(KeyEvent event)

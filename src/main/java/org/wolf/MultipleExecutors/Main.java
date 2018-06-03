@@ -18,6 +18,12 @@ public class Main extends Application
 {
 
 	private Stage primaryStage;
+
+	public Stage getPrimaryStage()
+	{
+		return primaryStage;
+	}
+
 	private Stage secondStage;
 	private Game game;
 	private State state;
@@ -57,7 +63,6 @@ public class Main extends Application
 	{
 		if (state != State.Welcome) {
 			secondStage.show();
-			System.out.println("SHOW");
 		}
 	}
 
@@ -142,10 +147,7 @@ public class Main extends Application
 		secondStage.setScene(scene);
 		EditorController editorController = loader.getController();
 		game.addObserver(editorController);
+		editorController.setGame(game);
 	}
 
-	private void clear()
-	{
-
-	}
 }
