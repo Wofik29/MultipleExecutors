@@ -5,32 +5,55 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.wolf.MultipleExecutors.commands.CommandException;
 import org.wolf.MultipleExecutors.controllers.EditorController;
 import org.wolf.MultipleExecutors.controllers.MainController;
 import org.wolf.MultipleExecutors.controllers.WelcomeController;
+import org.wolf.MultipleExecutors.unit.ControlCenter;
+import org.wolf.MultipleExecutors.unit.Executor;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Random;
 
 public class Main extends Application
 {
-
 	private Stage primaryStage;
-
-	public Stage getPrimaryStage()
-	{
-		return primaryStage;
-	}
-
-	private Stage secondStage;
-	private Game game;
-	private State state;
+	private Stage editorStage;
 	private String currentLayout = "";
 
+	private WelcomeController welcomeController;
+	private MainController mainController;
+	private EditorController editorController;
+
+	/**
+	 * Delay of update
+	 */
+	public static int DELAY = 40;
+
+	public int widthMap = 100;
+	public int heightMap = 100;
+	public int countExplorer = 1;
+	public int countHarvester = 0;
+
+	public Cell[][] map;
+	private ControlCenter center;
+	private State state = State.Welcome;
+	HashMap<State, String> fxmls = new HashMap<>();
+
+	public State getState()
+	{
+		return state;
+	}
+
+	public static int MAX_ALLOW_EXPLORER = 10;
+	public static int MAX_ALLOW_HARVESTER = 5;
+
 	private static String APP_NAME = "Multiple Executors";
-	private static String VERSION = "v 0.1";
+	private static String VERSION = "v 0.2";
 
 	public static void main(String args[])
 	{
@@ -40,46 +63,68 @@ public class Main extends Application
 	public void start(Stage stage)
 	{
 		this.primaryStage = stage;
-		this.secondStage = new Stage();
-		primaryStage.setTitle(APP_NAME + " " + VERSION);
-		primaryStage.show();
-		primaryStage.setOnCloseRequest(event -> {
-			secondStage.close();
-		});
-
-		secondStage.setTitle("Editor");
-
-		this.game = new Game(this);
-		setStage(State.Welcome);
-	}
-
-	public void setStage(State state)
-	{
-		this.state = state;
+		allInit();
 		setLayout();
 	}
 
-	public void showSecondStage()
+	public void allInit()
 	{
-		if (state != State.Welcome) {
-			secondStage.show();
-		}
-	}
+		primaryStage.setTitle(APP_NAME + " " + VERSION);
+		primaryStage.setOnCloseRequest(event -> {
+			editorStage.close();
+		});
 
-	private void setLayout()
-	{
-		HashMap<State, String> fxmls = new HashMap<>();
 		fxmls.put(State.Pause, "/fxml/main.fxml");
 		fxmls.put(State.Play, "/fxml/main.fxml");
 		fxmls.put(State.EditExplorer, "/fxml/main.fxml");
 		fxmls.put(State.EditHarvester, "/fxml/main.fxml");
 		fxmls.put(State.Welcome, "/fxml/welcome.fxml");
 
-		if (currentLayout.equals(fxmls.get(state))) {
+		initSecondLayout();
+		initMap();
+		primaryStage.show();
+	}
+
+	private void initMap()
+	{
+		map = new Cell[widthMap][heightMap];
+
+		Random random = new Random();
+		for (int i = 0; i < widthMap; i++) {
+			for (int j = 0; j < heightMap; j++) {
+				int next = random.nextInt(10);
+				if (next > 9) {
+					map[i][j] = Cell.Water;
+				} else {
+					map[i][j] = Cell.Ground;
+				}
+			}
+		}
+		center = new ControlCenter(widthMap / 2, heightMap / 2, 1, 0, this);
+	}
+
+	public void play()
+	{
+
+	}
+
+	public void showEditor()
+	{
+		editorStage.show();
+	}
+
+	public void setStage(State state)
+	{
+		if (state == this.state) {
 			return;
 		}
 
-		currentLayout = fxmls.get(state);
+		this.state = state;
+		setLayout();
+	}
+
+	private void setLayout()
+	{
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource(fxmls.get(state)));
 
@@ -96,23 +141,26 @@ public class Main extends Application
 
 		switch (state) {
 			case Welcome:
-				WelcomeController welcomeController = loader.getController();
-				welcomeController.game = game;
+				if (welcomeController == null) {
+					welcomeController = loader.getController();
+					welcomeController.setGame(this);
+				}
 				break;
-			case EditExplorer: case EditHarvester: case Play: case Pause:
-				MainController controller = loader.getController();
-				game.init();
-				controller.setMap(game.map);
-				controller.startTimer(this.game);
-				controller.setApplication(this);
-				controller.setGame(game);
+			case EditExplorer:
+			case EditHarvester:
+			case Play:
+			case Pause:
+				mainController = loader.getController();
+				mainController.setGame(this);
+				mainController.setMap(map);
+				mainController.startTimer();
 
 				primaryStage.widthProperty().addListener(new ChangeListener<Number>()
 				{
 					@Override
 					public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
 					{
-						controller.resize();
+						mainController.resize();
 					}
 				});
 				primaryStage.heightProperty().addListener(new ChangeListener<Number>()
@@ -120,14 +168,24 @@ public class Main extends Application
 					@Override
 					public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
 					{
-						controller.resize();
+						mainController.resize();
 					}
 				});
 
-				initSecondLayout();
-				secondStage.show();
+				editorStage.show();
 				break;
 		}
+
+		if (state == State.Play) {
+			try {
+				center.updateExplorerAlgorithm(editorController.explorer.getText());
+			} catch (CommandException ex) {
+				editorController.setMessage(ex.getMessage());
+				return;
+			}
+		}
+
+		primaryStage.setFocused(true);
 	}
 
 	private void initSecondLayout()
@@ -144,10 +202,53 @@ public class Main extends Application
 		}
 
 		Scene scene = new Scene(rootLayout);
-		secondStage.setScene(scene);
-		EditorController editorController = loader.getController();
-		game.addObserver(editorController);
-		editorController.setGame(game);
+		this.editorStage = new Stage();
+		editorStage.setTitle("Editor");
+		editorStage.setScene(scene);
+		editorController = loader.getController();
+		editorController.setGame(this);
+	}
+
+	public void input(KeyEvent event)
+	{
+		Executor[] explorers = center.getExplorers();
+		switch (event.getCode()) {
+			case A:
+				explorers[0].turnLeft();
+				break;
+			case D:
+				explorers[0].turnRight();
+				break;
+			case W:
+				try {
+					explorers[0].stepForward();
+				} catch (CommandException ex) {
+
+				}
+				break;
+			case S:
+				try {
+					explorers[0].stepBack();
+				} catch (CommandException ex) {
+
+				}
+				break;
+		}
+	}
+
+	public void step()
+	{
+		switch (state) {
+			case Pause:
+				break;
+			case Play:
+				center.step();
+				break;
+			case EditExplorer:
+				break;
+			case EditHarvester:
+				break;
+		}
 	}
 
 }

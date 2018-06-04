@@ -9,14 +9,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import org.wolf.MultipleExecutors.*;
 
-import java.util.Observable;
-import java.util.Observer;
-
-public class MainController implements Observer
+public class MainController
 {
 	private Canvas canvas;
-	private Main application;
-	private Game game;
+	private Main game;
 
 	@FXML
 	private AnchorPane parent;
@@ -41,21 +37,21 @@ public class MainController implements Observer
 	@FXML
 	public void showEditor()
 	{
-		if (application != null) {
-			application.showSecondStage();
+		if (game != null) {
+			game.showEditor();
 		}
 	}
 
 	@FXML
 	public void playState()
 	{
-		game.changeState(State.Play);
+		game.setStage(State.Play);
 	}
 
 	@FXML
 	public void pauseState()
 	{
-		game.changeState(State.Pause);
+		game.setStage(State.Pause);
 	}
 
 	private void playDisplay()
@@ -70,7 +66,7 @@ public class MainController implements Observer
 		message.setTextFill(Color.valueOf("EEE413"));
 	}
 
-	public void startTimer(Game game)
+	public void startTimer()
 	{
 		canvas.setOnScroll(event -> {
 			int delta = (int) event.getDeltaY() / 10;
@@ -135,21 +131,14 @@ public class MainController implements Observer
 		canvas.setMap(map);
 	}
 
-	public void setApplication(Main application)
-	{
-		this.application = application;
-	}
-
-	public void setGame(Game game)
+	public void setGame(Main game)
 	{
 		this.game = game;
 	}
 
-	@Override
-	public void update(Observable o, Object arg)
+	public void update()
 	{
-		Game g = (Game) o;
-		switch (g.getState()) {
+		switch (game.getState()) {
 			case EditExplorer:
 			case EditHarvester:
 			case Pause:

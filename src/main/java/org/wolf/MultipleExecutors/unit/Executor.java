@@ -8,6 +8,7 @@ public interface Executor
 {
 	HashMap<Integer, String[]> algorithm = new HashMap<>();
 
+	void setAlgorithm(HashMap<Integer, String[]> algorithm);
 	void step();
 	void checkCell() throws CommandException;
 	void stepForward() throws CommandException;

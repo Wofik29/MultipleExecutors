@@ -3,13 +3,10 @@ package org.wolf.MultipleExecutors.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import org.wolf.MultipleExecutors.Game;
+import org.wolf.MultipleExecutors.Main;
 import org.wolf.MultipleExecutors.State;
 
-import java.util.Observable;
-import java.util.Observer;
-
-public class EditorController implements Observer
+public class EditorController
 {
 	@FXML
 	public TextArea explorer;
@@ -17,7 +14,7 @@ public class EditorController implements Observer
 	@FXML
 	public Label message;
 
-	private Game game;
+	private Main game;
 
 	@FXML
 	private void initialize()
@@ -25,23 +22,20 @@ public class EditorController implements Observer
 
 	}
 
-	public void setGame(Game game)
+	public void setGame(Main game)
 	{
 		this.game = game;
-		game.setEditorController(this);
 	}
 
 	@FXML
 	public void onStart()
 	{
-		game.changeState(State.Play);
+		game.setStage(State.Play);
 	}
 
-	@Override
-	public void update(Observable o, Object arg)
+	public void update()
 	{
-		Game g = (Game) o;
-		switch (g.getState()) {
+		switch (game.getState()) {
 			case EditExplorer:
 				explorer.setDisable(false);
 				break;

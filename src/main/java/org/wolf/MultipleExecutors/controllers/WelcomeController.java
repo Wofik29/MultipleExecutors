@@ -3,12 +3,17 @@ package org.wolf.MultipleExecutors.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import org.wolf.MultipleExecutors.Game;
+import org.wolf.MultipleExecutors.Main;
 import org.wolf.MultipleExecutors.State;
 
 public class WelcomeController
 {
-	public Game game;
+	private Main game;
+
+	public void setGame(Main g)
+	{
+		this.game = g;
+	}
 
 	@FXML
 	public Label message;
@@ -42,14 +47,14 @@ public class WelcomeController
 			errorText = "Кол-во должно быть числом";
 		}
 
-		if (countExplorer > Game.MAX_ALLOW_EXPLORER) {
+		if (countExplorer > Main.MAX_ALLOW_EXPLORER) {
 			isError = true;
-			errorText = "Кол-во искателей не может быть больше " + Game.MAX_ALLOW_EXPLORER;
+			errorText = "Кол-во искателей не может быть больше " + Main.MAX_ALLOW_EXPLORER;
 		}
 
-		if (countHarvester > Game.MAX_ALLOW_HARVESTER) {
+		if (countHarvester > Main.MAX_ALLOW_HARVESTER) {
 			isError = true;
-			errorText = "Кол-во сборщиков не может быть больше " + Game.MAX_ALLOW_HARVESTER;
+			errorText = "Кол-во сборщиков не может быть больше " + Main.MAX_ALLOW_HARVESTER;
 		}
 
 		if (countExplorer < 0 || countHarvester < 0) {
@@ -64,6 +69,6 @@ public class WelcomeController
 
 		game.countHarvester = countHarvester;
 		game.countExplorer = countExplorer;
-		game.changeState(State.EditExplorer);
+		game.setStage(State.EditExplorer);
 	}
 }

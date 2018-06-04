@@ -1,7 +1,8 @@
 package org.wolf.MultipleExecutors.unit;
 
 import org.wolf.MultipleExecutors.Cell;
-import org.wolf.MultipleExecutors.Game;
+import org.wolf.MultipleExecutors.Main;
+import org.wolf.MultipleExecutors.commands.CommandException;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -13,18 +14,17 @@ public class ControlCenter
 
 	private Executor[] explorers;
 	private Executor[] harvesters;
-	private Game game;
+	private String explorerAlgorithm = "";
 
 	public Executor[] getExplorers()
 	{
 		return explorers;
 	}
 
-	public ControlCenter(int x, int y, Game game, int countExplorer, int countHarvester)
+	public ControlCenter(int x, int y, int countExplorer, int countHarvester, Main game)
 	{
 		this.x = x;
 		this.y = y;
-		this.game = game;
 		this.explorers = new Explorer[countExplorer];
 		this.harvesters = new Harvester[countHarvester];
 		game.map[x][y] = Cell.Center;
@@ -68,6 +68,18 @@ public class ControlCenter
 
 		for (Executor explorer : explorers) {
 			explorer.step();
+		}
+	}
+
+	public void updateExplorerAlgorithm(String string) throws CommandException
+	{
+		if (!explorerAlgorithm.equals(string)) {
+			System.out.println(string);
+			explorerAlgorithm = string;/*
+			HashMap<Integer, String[]> algorithm = Compiler.prepare(string);
+			for (Executor e : explorers) {
+				e.setAlgorithm(algorithm);
+			}*/
 		}
 	}
 }

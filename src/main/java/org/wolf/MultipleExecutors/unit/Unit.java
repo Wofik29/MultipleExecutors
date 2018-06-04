@@ -1,7 +1,7 @@
 package org.wolf.MultipleExecutors.unit;
 
 import org.wolf.MultipleExecutors.Cell;
-import org.wolf.MultipleExecutors.Game;
+import org.wolf.MultipleExecutors.Main;
 import org.wolf.MultipleExecutors.commands.CommandException;
 import org.wolf.MultipleExecutors.commands.Commands;
 
@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public abstract class Unit implements Executor
 {
-	protected Game game;
+	protected Main game;
 	protected int x;
 	protected int y;
 	protected int stepX;
@@ -48,7 +48,7 @@ public abstract class Unit implements Executor
 		algorithm.putAll(algorithm);
 	}
 
-	Unit(int x, int y, Game game)
+	Unit(int x, int y, Main game)
 	{
 		direction = Direction.Up;
 		this.x = x;
