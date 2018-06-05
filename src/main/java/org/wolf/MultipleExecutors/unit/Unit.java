@@ -48,9 +48,9 @@ public abstract class Unit implements Executor
 		algorithm.putAll(algorithm);
 	}
 
-	Unit(int x, int y, Main game)
+	Unit(int x, int y, Direction direction, Main game)
 	{
-		direction = Direction.Up;
+		this.direction = direction;
 		this.x = x;
 		this.y = y;
 		stepX = 0;

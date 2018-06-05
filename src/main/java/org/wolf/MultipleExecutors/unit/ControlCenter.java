@@ -33,6 +33,13 @@ public class ControlCenter
 		allowCell.add(Cell.Ground);
 
 		Random random = new Random();
+		Direction[] directions = {
+				Direction.Up,
+				Direction.Down,
+				Direction.Left,
+				Direction.Right,
+		};
+
 		for (int i = 0; i < countExplorer; i++) {
 			int unitX = x;
 			int unitY = y;
@@ -41,11 +48,13 @@ public class ControlCenter
 				unitX = random.nextInt(5) + this.x;
 				unitY = random.nextInt(5) + this.y;
 			}
-			explorers[i] = new Explorer(unitX, unitY, game);
+
+			int direction = random.nextInt(3);
+			explorers[i] = new Explorer(unitX, unitY, directions[direction], game);
 		}
 
 		for (int i = 0; i < countHarvester; i++) {
-			harvesters[i] = new Harvester(this.x, this.y, game);
+			harvesters[i] = new Harvester(this.x, this.y, Direction.Down, game);
 		}
 	}
 
