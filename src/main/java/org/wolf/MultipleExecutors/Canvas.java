@@ -22,6 +22,11 @@ public class Canvas extends javafx.scene.canvas.Canvas
 		this.map = map;
 	}
 
+	public boolean isMap()
+	{
+		return map.length == 0;
+	}
+
 	public void clear()
 	{
 		GraphicsContext gx = getGraphicsContext2D();
