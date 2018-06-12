@@ -10,14 +10,20 @@ public enum Cell
 	UnitDown(Color.RED, "executor"),
 	UnitLeft(Color.RED, "executor"),
 	UnitRight(Color.RED, "executor"),
-	Center(Color.BLACK, "center");
+	Center(Color.BLACK, "center"),
+	Plate(Color.GRAY, "plate")
+	;
 
 	public Color color;
 	public String title;
+	public String value;
+	public boolean isVisible = true;
+
 	Cell(Color color, String title)
 	{
 		this.color = color;
 		this.title = title;
+		value = "";
 	}
 
 }

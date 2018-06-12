@@ -23,11 +23,15 @@ public class Compiler
 	private Commands current = null;
 
 	private ArrayList<String> allowTitleCommand = new ArrayList<>();
-	private ArrayList<String> allowTitleCell = new ArrayList<>();
-	private ArrayList<Commands> allowCommand = new ArrayList<>();
-	private ArrayList<Cell> allowCell = new ArrayList<>();
 	private ArrayList<String> controlTitleCommand = new ArrayList<>();
+	private ArrayList<String> directionTitleCommand = new ArrayList<>();
+	private ArrayList<String> allowTitleCell = new ArrayList<>();
+
+	private ArrayList<Commands> allowCommand = new ArrayList<>();
 	private ArrayList<Commands> controlCommand = new ArrayList<>();
+	private ArrayList<Commands> directionCommand = new ArrayList<>();
+	private ArrayList<Cell> allowCell = new ArrayList<>();
+
 	private Stack<String[]> controlStack = new Stack<>();
 
 	/**
@@ -39,12 +43,17 @@ public class Compiler
 		algorithmText = text.toLowerCase();
 
 		for (Commands c : Commands.values()) {
-			if (c.isControl) {
-				controlTitleCommand.add(c.userTitle);
-				controlCommand.add(c);
+			if (c.isDirection) {
+				directionTitleCommand.add(c.userTitle);
+				directionCommand.add(c);
 			} else {
-				allowTitleCommand.add(c.userTitle);
-				allowCommand.add(c);
+				if (c.isControl) {
+					controlTitleCommand.add(c.userTitle);
+					controlCommand.add(c);
+				} else {
+					allowTitleCommand.add(c.userTitle);
+					allowCommand.add(c);
+				}
 			}
 		}
 
@@ -144,6 +153,10 @@ public class Compiler
 			} else if (!isExistRightBracket) {
 				if (allowTitleCell.contains(currentWord.toString())) {
 					condition[index] = allowCell.get(allowTitleCell.indexOf(currentWord.toString())).toString();
+					index++;
+					currentWord.delete(0, currentWord.length());
+				} else if (directionTitleCommand.contains(currentWord.toString())) {
+					condition[index] = directionCommand.get(directionTitleCommand.indexOf(currentWord.toString())).toString();
 					index++;
 					currentWord.delete(0, currentWord.length());
 				}
