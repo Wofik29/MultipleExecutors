@@ -40,7 +40,7 @@ public class Compiler
 	public Compiler(String text)
 	{
 		originAlgorithmText = text;
-		algorithmText = text.toLowerCase();
+		algorithmText = text.toLowerCase().replace('\n', ' ');
 
 		for (Commands c : Commands.values()) {
 			if (c.isDirection) {
@@ -88,13 +88,19 @@ public class Compiler
 						throw new CommandException("Не найдено начало End");
 					}
 					String[] control = controlStack.pop();
-					String condition = control[0] + ',' + control[1] + ',' + control[2];
-					algorithm.get(Integer.parseInt(control[3]))[1] = condition;
 					algorithm.put(countCommand++, new String[]{current.toString(), control[3]});
+				} else if (current == Commands.Else) {
+					if (controlStack.isEmpty()) {
+						throw new CommandException("Найдено вторая ветка ветвления("+Commands.Else.userTitle+"), но не найдено начало ветвления("+Commands.If.userTitle+")");
+					}
+					String[] control = controlStack.pop();
+					algorithm.put(countCommand++, new String[]{current.toString(), control[3]});
+					controlStack.push(control);
 				} else {
 					String[] condition = parseCondition();
+					String conditionStr = condition[0] + ',' + condition[1] + ',' + condition[2];
 					controlStack.push(new String[]{condition[0], condition[1], condition[2], Integer.toString(countCommand)});
-					algorithm.put(countCommand++, new String[]{current.toString(), "", Integer.toString(countCommand)});
+					algorithm.put(countCommand++, new String[]{current.toString(), conditionStr, Integer.toString(countCommand)});
 				}
 			} else {
 				algorithm.put(countCommand++, new String[]{this.current.toString()});
@@ -131,6 +137,11 @@ public class Compiler
 		}
 	}
 
+	/**
+	 *
+	 * @return array like this [leftOperat, rightOperat, symbolBetween]
+	 * @throws CommandException
+	 */
 	private String[] parseCondition() throws CommandException
 	{
 		boolean isExistLeftBracket = false;
