@@ -29,6 +29,7 @@ public abstract class Unit implements Executor
 	protected int current = 0;
 	protected Direction direction;
 	protected Cell currentCell;
+	protected boolean visible = false;
 
 	protected ArrayList<Cell> allowCell;
 
@@ -82,14 +83,39 @@ public abstract class Unit implements Executor
 		this.y = y;
 		this.startX = x;
 		this.startY = y;
-		stepX = 0;
-		stepY = -1;
 		this.game = game;
+
+		switch (direction) {
+			case Up:
+				stepX = 0;
+				stepY = -1;
+				break;
+			case Left:
+				stepX = -1;
+				stepY = 0;
+				break;
+			case Right:
+				stepX = 1;
+				stepY = 0;
+				break;
+			case Down:
+				stepX = 0;
+				stepY = 1;
+				break;
+		}
 
 		allowCell = new ArrayList<>();
 		allowCell.add(Cell.Ground);
+	}
 
-		flipMapCell();
+	public void setVisible(boolean visible)
+	{
+		this.visible = visible;
+		if (visible) {
+			flipMapCell();
+		} else {
+			game.map[x][y] = currentCell;
+		}
 	}
 
 	private void flipMapCell()

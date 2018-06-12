@@ -64,7 +64,9 @@ public class ControlCenter
 			}
 
 			int direction = random.nextInt(3);
-			explorers[i] = new Explorer(unitX, unitY, directions[direction], game);
+			Explorer explorer = new Explorer(unitX, unitY, directions[direction], game);
+			explorer.setVisible(true);
+			explorers[i] = explorer;
 		}
 
 		for (int i = 0; i < countHarvester; i++) {

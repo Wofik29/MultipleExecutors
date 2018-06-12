@@ -27,8 +27,8 @@ public class WelcomeController
 	@FXML
 	private void initialize()
 	{
-		countExplorer.setText("0");
-		countHarvester.setText("0");
+		countExplorer.setText("3");
+		countHarvester.setText("1");
 	}
 
 	@FXML
