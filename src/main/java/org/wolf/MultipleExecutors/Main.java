@@ -41,8 +41,9 @@ public class Main extends Application
 
 	public Cell[][] map;
 	private ControlCenter center;
-	private State state = State.Welcome;
-	HashMap<State, String> fxmls = new HashMap<>();
+	private State state = null;
+	private HashMap<State, String> fxmls = new HashMap<>();
+	private String currentFxml = "";
 
 	public State getState()
 	{
@@ -64,7 +65,7 @@ public class Main extends Application
 	{
 		this.primaryStage = stage;
 		allInit();
-		setLayout();
+		setStage(State.Welcome);
 	}
 
 	public void allInit()
@@ -100,7 +101,6 @@ public class Main extends Application
 				}
 			}
 		}
-		center = new ControlCenter(widthMap / 2, heightMap / 2, 1, 0, this);
 	}
 
 	public void play()
@@ -120,7 +120,19 @@ public class Main extends Application
 		}
 
 		this.state = state;
-		setLayout();
+		if (!currentFxml.equals(fxmls.get(state))) {
+			setLayout();
+			currentFxml = fxmls.get(state);
+		}
+
+		updateState(state);
+
+		if (mainController != null) {
+			mainController.update();
+		}
+		if (editorController != null) {
+			editorController.update();
+		}
 	}
 
 	private void setLayout()
@@ -150,42 +162,48 @@ public class Main extends Application
 			case EditHarvester:
 			case Play:
 			case Pause:
-				mainController = loader.getController();
-				mainController.setGame(this);
-				mainController.setMap(map);
-				mainController.startTimer();
-
-				primaryStage.widthProperty().addListener(new ChangeListener<Number>()
-				{
-					@Override
-					public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
+				if (mainController == null) {
+					mainController = loader.getController();
+					mainController.setGame(this);
+					mainController.startTimer();
+					mainController.setMap(map);
+					primaryStage.widthProperty().addListener(new ChangeListener<Number>()
 					{
-						mainController.resize();
-					}
-				});
-				primaryStage.heightProperty().addListener(new ChangeListener<Number>()
-				{
-					@Override
-					public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
+						@Override
+						public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
+						{
+							mainController.resize();
+						}
+					});
+					primaryStage.heightProperty().addListener(new ChangeListener<Number>()
 					{
-						mainController.resize();
-					}
-				});
+						@Override
+						public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
+						{
+							mainController.resize();
+						}
+					});
+				}
 
+				if (center == null) {
+					center = new ControlCenter(widthMap / 2, heightMap / 2, this.countExplorer, this.countHarvester, this);
+				}
 				editorStage.show();
 				break;
 		}
 
+		primaryStage.setFocused(true);
+	}
+
+	private void updateState(State state)
+	{
 		if (state == State.Play) {
 			try {
 				center.updateExplorerAlgorithm(editorController.explorer.getText());
 			} catch (CommandException ex) {
 				editorController.setMessage(ex.getMessage());
-				return;
 			}
 		}
-
-		primaryStage.setFocused(true);
 	}
 
 	private void initSecondLayout()
@@ -232,6 +250,12 @@ public class Main extends Application
 				} catch (CommandException ex) {
 
 				}
+				break;
+			case O:
+				center.upSpeed();
+				break;
+			case P:
+				center.downSpeed();
 				break;
 		}
 	}

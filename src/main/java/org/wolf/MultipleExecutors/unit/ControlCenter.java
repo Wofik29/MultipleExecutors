@@ -1,10 +1,12 @@
 package org.wolf.MultipleExecutors.unit;
 
 import org.wolf.MultipleExecutors.Cell;
+import org.wolf.MultipleExecutors.Compiler;
 import org.wolf.MultipleExecutors.Main;
 import org.wolf.MultipleExecutors.commands.CommandException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class ControlCenter
@@ -15,6 +17,18 @@ public class ControlCenter
 	private Executor[] explorers;
 	private Executor[] harvesters;
 	private String explorerAlgorithm = "";
+	private int period = 300;
+	private long last = 0;
+
+	public void upSpeed()
+	{
+		period += 10;
+	}
+
+	public void downSpeed()
+	{
+		period -= 10;
+	}
 
 	public Executor[] getExplorers()
 	{
@@ -71,24 +85,38 @@ public class ControlCenter
 
 	public void step()
 	{
+		long now = System.currentTimeMillis();
+		if (now - last < period) return;
+		boolean isEnd = false;
+
 		for (Executor harvester : harvesters) {
 			harvester.step();
+			isEnd = isEnd || harvester.isEnd();
 		}
 
 		for (Executor explorer : explorers) {
 			explorer.step();
+			isEnd = isEnd || explorer.isEnd();
 		}
+
+
+		last = now;
 	}
 
 	public void updateExplorerAlgorithm(String string) throws CommandException
 	{
 		if (!explorerAlgorithm.equals(string)) {
 			System.out.println(string);
-			explorerAlgorithm = string;/*
-			HashMap<Integer, String[]> algorithm = Compiler.prepare(string);
+			explorerAlgorithm = string;
+			Compiler compiler = new Compiler(explorerAlgorithm);
+			HashMap<Integer, String[]> algorithm = compiler.prepare();
 			for (Executor e : explorers) {
 				e.setAlgorithm(algorithm);
-			}*/
+			}
+		} else {
+			for (Executor explorer : explorers) {
+				explorer.reset();
+			}
 		}
 	}
 }

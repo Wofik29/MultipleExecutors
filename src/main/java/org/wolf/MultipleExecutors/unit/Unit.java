@@ -10,11 +10,21 @@ import java.util.HashMap;
 
 public abstract class Unit implements Executor
 {
+	public static HashMap<Direction, Cell> cellWithDirection = new HashMap<>();
+	static {
+		cellWithDirection.put(Direction.Up, Cell.UnitUp);
+		cellWithDirection.put(Direction.Down, Cell.UnitDown);
+		cellWithDirection.put(Direction.Right, Cell.UnitRight);
+		cellWithDirection.put(Direction.Left, Cell.UnitLeft);
+	}
+
 	protected Main game;
 	protected int x;
 	protected int y;
 	protected int stepX;
 	protected int stepY;
+	protected int startX;
+	protected int startY;
 	protected int current = 0;
 	protected Direction direction;
 	protected Cell currentCell;
@@ -42,10 +52,26 @@ public abstract class Unit implements Executor
 	}
 
 	@Override
+	public void reset()
+	{
+		current = 0;
+		game.map[x][y] = currentCell;
+		x = startX;
+		y = startY;
+		flipMapCell();
+	}
+
+	@Override
+	public boolean isEnd()
+	{
+		return this.current > algorithm.size() - 1;
+	}
+
+	@Override
 	public void setAlgorithm(HashMap<Integer, String[]> algorithm)
 	{
-		algorithm.clear();
-		algorithm.putAll(algorithm);
+		this.algorithm.clear();
+		this.algorithm.putAll(algorithm);
 	}
 
 	Unit(int x, int y, Direction direction, Main game)
@@ -53,6 +79,8 @@ public abstract class Unit implements Executor
 		this.direction = direction;
 		this.x = x;
 		this.y = y;
+		this.startX = x;
+		this.startY = y;
 		stepX = 0;
 		stepY = -1;
 		this.game = game;
@@ -66,7 +94,7 @@ public abstract class Unit implements Executor
 	private void flipMapCell()
 	{
 		currentCell = game.map[x][y];
-		game.map[x][y] = Cell.Unit;
+		game.map[x][y] = cellWithDirection.get(direction);
 	}
 
 	@Override
@@ -107,15 +135,17 @@ public abstract class Unit implements Executor
 	@Override
 	public void step()
 	{
-		if (this.current > algorithm.size() - 1) {
+		if (isEnd()) {
 			return;
 		}
 		String[] current = algorithm.get(this.current);
 
 		if (current == null) {
+			this.current++;
 			return;
 		}
 
+		// Сделать запись в компиляторе по ключу, а не название
 		Commands command = Commands.valueOf(current[0]);
 
 		try {
@@ -165,6 +195,8 @@ public abstract class Unit implements Executor
 				stepY = -1;
 				break;
 		}
+		game.map[x][y] = currentCell;
+		flipMapCell();
 	}
 
 	@Override
@@ -192,7 +224,7 @@ public abstract class Unit implements Executor
 				stepY = 1;
 				break;
 		}
+		game.map[x][y] = currentCell;
+		flipMapCell();
 	}
-
-
 }

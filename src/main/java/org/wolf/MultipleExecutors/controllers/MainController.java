@@ -13,6 +13,7 @@ public class MainController
 {
 	private Canvas canvas;
 	private Main game;
+	private boolean isStart = false;
 
 	@FXML
 	private AnchorPane parent;
@@ -68,6 +69,11 @@ public class MainController
 
 	public void startTimer()
 	{
+		if (isStart) {
+			return;
+		}
+		isStart = true;
+
 		canvas.setOnScroll(event -> {
 			int delta = (int) event.getDeltaY() / 10;
 			canvas.widthCell += delta;
@@ -129,6 +135,11 @@ public class MainController
 	public void setMap(Cell[][] map)
 	{
 		canvas.setMap(map);
+	}
+
+	public boolean isMap()
+	{
+		return canvas.isMap();
 	}
 
 	public void setGame(Main game)

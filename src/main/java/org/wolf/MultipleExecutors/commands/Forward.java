@@ -7,7 +7,7 @@ public class Forward implements Command
 	@Override
 	public boolean execute(Executor executor)
 	{
-		executor.stepForward();
+		//executor.stepForward();
 		return true;
 	}
 }

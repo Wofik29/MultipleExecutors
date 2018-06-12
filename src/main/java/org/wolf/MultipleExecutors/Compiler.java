@@ -31,7 +31,7 @@ public class Compiler
 	/**
 	 * @param text
 	 */
-	Compiler(String text)
+	public Compiler(String text)
 	{
 		originAlgorithmText = text;
 		algorithmText = text.toLowerCase();
@@ -64,8 +64,7 @@ public class Compiler
 
 		while (isNext()) {
 			getNextCommand();
-			algorithm.put(countCommand++, new String[]{this.current.userTitle});
-			state = PARSE;
+			algorithm.put(countCommand++, new String[]{this.current.toString()});
 		}
 
 		return algorithm;
@@ -81,7 +80,6 @@ public class Compiler
 			currentWord.append(algorithmText.charAt(currentPositionText));
 			if (allowTitleCommand.contains(currentWord.toString())) {
 				current = allowCommand.get(allowTitleCommand.indexOf(currentWord.toString()));
-				state = FIND;
 				currentPositionText++;
 				break;
 			} else if (Character.isWhitespace(algorithmText.charAt(currentPositionText))) {
