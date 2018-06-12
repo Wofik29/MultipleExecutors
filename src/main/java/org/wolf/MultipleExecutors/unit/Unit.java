@@ -11,6 +11,7 @@ import java.util.HashMap;
 public abstract class Unit implements Executor
 {
 	public static HashMap<Direction, Cell> cellWithDirection = new HashMap<>();
+
 	static {
 		cellWithDirection.put(Direction.Up, Cell.UnitUp);
 		cellWithDirection.put(Direction.Down, Cell.UnitDown);
@@ -145,28 +146,32 @@ public abstract class Unit implements Executor
 			return;
 		}
 
-		// Сделать запись в компиляторе по ключу, а не название
 		Commands command = Commands.valueOf(current[0]);
 
 		try {
 			switch (command) {
-				case forward:
+				case Forward:
 					stepForward();
 					break;
-				case back:
+				case Back:
 					stepBack();
 					break;
-				case turn_left:
+				case TurnLeft:
 					turnLeft();
 					break;
-				case turn_right:
+				case TurnRight:
 					turnRight();
+					break;
+				case If:
+					break;
+				case While:
+					break;
+				case End:
 					break;
 			}
 		} catch (CommandException ex) {
 
 		}
-
 		this.current += 1;
 	}
 

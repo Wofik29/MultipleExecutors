@@ -2,7 +2,14 @@ package org.wolf.MultipleExecutors.commands;
 
 public enum Commands
 {
-	forward("forward", false), turn_left("left", false), turn_right("right", false), back("back", false);
+	Forward("forward", false),
+	TurnLeft("left", false),
+	TurnRight("right", false),
+	Back("back", false),
+	End("end", true),
+	If("if", true),
+	Else("else", true),
+	While("while", true);
 
 	public String userTitle;
 	public boolean isControl;

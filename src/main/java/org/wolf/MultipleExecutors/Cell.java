@@ -4,13 +4,13 @@ import javafx.scene.paint.Color;
 
 public enum Cell
 {
-	Ground(Color.BROWN, "Земля"),
-	Water(Color.AQUA, "Вода"),
-	UnitUp(Color.RED, "Исполнитель"),
-	UnitDown(Color.RED, "Исполнитель"),
-	UnitLeft(Color.RED, "Исполнитель"),
-	UnitRight(Color.RED, "Исполнитель"),
-	Center(Color.BLACK, "Командный центр");
+	Ground(Color.BROWN, "ground"),
+	Water(Color.AQUA, "water"),
+	UnitUp(Color.RED, "executor"),
+	UnitDown(Color.RED, "executor"),
+	UnitLeft(Color.RED, "executor"),
+	UnitRight(Color.RED, "executor"),
+	Center(Color.BLACK, "center");
 
 	public Color color;
 	public String title;
