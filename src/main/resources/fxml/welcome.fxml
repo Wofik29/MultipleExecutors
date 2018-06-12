@@ -14,10 +14,10 @@
           <Menu mnemonicParsing="false" text="О программе" />
         </menus>
       </MenuBar>
-      <TextField fx:id="countExplorer" layoutX="186.0" layoutY="75.0" prefHeight="25.0" prefWidth="149.0" />
+      <TextField fx:id="countExplorer" layoutX="186.0" layoutY="75.0" prefHeight="25.0" prefWidth="149.0" text="3" />
       <Label layoutX="51.0" layoutY="79.0" text="Количество искателей" />
       <Label layoutX="36.0" layoutY="123.0" text="Количество собирателей" />
-      <TextField fx:id="countHarvester" layoutX="186.0" layoutY="119.0" />
+      <TextField fx:id="countHarvester" layoutX="186.0" layoutY="119.0" text="1" />
       <Button layoutX="465.0" layoutY="180.0" mnemonicParsing="false" onAction="#onStartAction" text="Запуск" />
       <Label fx:id="message" layoutX="186.0" layoutY="184.0" prefHeight="17.0" prefWidth="246.0" textFill="#e11c1c" />
    </children>
