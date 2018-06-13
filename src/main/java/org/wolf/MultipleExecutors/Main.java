@@ -34,12 +34,141 @@ public class Main extends Application
 	 */
 	public static int DELAY = 40;
 
-	public int widthMap = 100;
-	public int heightMap = 100;
+	public int widthMap = 32;
+	public int heightMap = 32;
 	public int countExplorer = 1;
 	public int countHarvester = 0;
 
-	public Cell[][] map;
+	public Cell[][] map = {
+			{ // 1
+				Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water,
+				Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water,
+			},
+			{ // 2
+				Cell.Water, Cell.Ground, Cell.Water, Cell.Water, Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{ // 3
+				Cell.Water, Cell.Ground, Cell.Water, Cell.Water, Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{ // 4
+				Cell.Water, Cell.Ground, Cell.Water, Cell.Water, Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{ // 5
+				Cell.Water, Cell.Ground, Cell.Water, Cell.Water, Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water, Cell.Water, Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{ // 6
+				Cell.Water, Cell.Ground, Cell.Water, Cell.Water, Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water, Cell.Water, Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{ // 7
+				Cell.Water, Cell.Ground, Cell.Water, Cell.Water, Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water, Cell.Water, Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{ // 8
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water, Cell.Water, Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{ // 9
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Plate, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water, Cell.Water, Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{ // 10
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water, Cell.Water, Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{ // 11
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water, Cell.Water, Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{ // 12
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{ // 13
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{ // 14
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water, Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water, Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water, Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water, Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water, Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water, Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water, Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water, Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{
+				Cell.Water, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground,
+				Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Ground, Cell.Water,
+			},
+			{
+				Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water,
+				Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water, Cell.Water,
+			},
+	};
 	private ControlCenter center;
 	private State state = null;
 	private HashMap<State, String> fxmls = new HashMap<>();
@@ -88,6 +217,9 @@ public class Main extends Application
 
 	private void initMap()
 	{
+		map[8][3].value = "1";
+		map[8][3].isVisible = false;
+/*
 		map = new Cell[widthMap][heightMap];
 
 		Random random = new Random();
@@ -101,6 +233,7 @@ public class Main extends Application
 				}
 			}
 		}
+*/
 	}
 
 	public void play()

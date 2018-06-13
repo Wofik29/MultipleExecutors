@@ -57,6 +57,13 @@ public class Canvas extends javafx.scene.canvas.Canvas
 		for (int x = 0; x < map.length; x++) {
 			for (int y = 0; y < map[x].length; y++) {
 				getGraphicsContext2D().setStroke(Color.BLACK);
+/*
+				if (map[x][y].isVisible) {
+					getGraphicsContext2D().setFill(map[x][y].color);
+				} else {
+					getGraphicsContext2D().setFill(Cell.Ground.color);
+				}
+*/
 				getGraphicsContext2D().setFill(map[x][y].color);
 				double xTranslate = x * widthCell + widthCell/2 + shiftLeft;
 				double yTranslate = y * widthCell + widthCell/2 + shiftUp;

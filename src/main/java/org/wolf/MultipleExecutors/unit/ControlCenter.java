@@ -54,6 +54,7 @@ public class ControlCenter
 				Direction.Right,
 		};
 
+/*
 		for (int i = 0; i < countExplorer; i++) {
 			int unitX = x;
 			int unitY = y;
@@ -68,6 +69,18 @@ public class ControlCenter
 			explorer.setVisible(true);
 			explorers[i] = explorer;
 		}
+*/
+
+		Explorer explorer;
+		explorer = new Explorer(8, 12, Direction.Up, game);
+		explorer.setVisible(true);
+		explorers[0] = explorer;
+		explorer = new Explorer(9, 17, Direction.Left, game);
+		explorer.setVisible(true);
+		explorers[1] = explorer;
+		explorer = new Explorer(17, 12, Direction.Down, game);
+		explorer.setVisible(true);
+		explorers[2] = explorer;
 
 		for (int i = 0; i < countHarvester; i++) {
 			harvesters[i] = new Harvester(this.x, this.y, Direction.Down, game);
