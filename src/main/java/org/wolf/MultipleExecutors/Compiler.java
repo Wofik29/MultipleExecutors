@@ -168,6 +168,12 @@ public class Compiler
 					currentWord.delete(0, currentWord.length());
 				} else if (directionTitleCommand.contains(currentWord.toString())) {
 					condition[index] = directionCommand.get(directionTitleCommand.indexOf(currentWord.toString())).toString();
+					if (currentWord.toString().equals(Commands.True.userTitle)) {
+						condition[1] = "";
+						condition[2] = "";
+						while (algorithmText.charAt(currentPositionText++) != ')');
+						break;
+					}
 					index++;
 					currentWord.delete(0, currentWord.length());
 				}

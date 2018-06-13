@@ -13,7 +13,9 @@ public enum Commands
 	OnForward("onforward", false, true),
 	OnRight("onright", false, true),
 	OnLeft("onleft", false, true),
-	OnBack("onback", false, true)
+	OnBack("onback", false, true),
+	True("true", false, true),
+	Find("find", false),
 	;
 
 	public String userTitle;
