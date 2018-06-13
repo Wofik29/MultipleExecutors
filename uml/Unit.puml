@@ -1,7 +1,9 @@
 @startuml
 
 package unit {
-    interface Executor{
+    interface Executor {
+        +algorithm: Queue
+        +currentStep: int[]
     	+stepForward():void;
     	+turnRight():void;
     	+turnLeft():void;
@@ -17,14 +19,15 @@ package unit {
     }
 
     abstract class Unit <implements Executor> {
-        -int x;
-        -int y;
-        -Direction direction;
+        #x: int
+        #y: int
+        #currentCell: Cell
+        #Direction direction
 
-        +getX():int;
-        +getY():int;
-        +setX(int x):void;
-        +setY(int y):void;
+        +getX():int
+        +getY():int
+        +setX(int x):void
+        +setY(int y):void
     }
 
     class Explorer <extends Unit> {
@@ -49,7 +52,6 @@ package unit {
     }
 
     Direction -[hidden]- ControlCenter
-    Unit -[hidden]u- ControlCenter
 
     Unit --> Executor
     Explorer -l-> Unit

@@ -1,17 +1,13 @@
 @startuml
-!include Commands.puml
-!include Unit.puml
-
-package controllers {
-    class MainController {
-        Контроллер окна
-        Определяет инициализацию и поведение окна
-    }
-}
 
 package Main {
 
     class Game {
+        +widthMap: int
+        +heightMap: int
+        -center: ControlCenter
+        -map: Cells[]
+        +step():void
         Определяет общее движение всей игры
         Определяет кол-во исполнителей
         Определяет карту
@@ -27,6 +23,11 @@ package Main {
 
 
     class Canvas {
+        -map: Cell[]
+        -widthCell: int
+        +setMap(Cell[] cell):void
+        +clear():void
+        +draw():void
         Отрисовка поля и элементов
     }
 
@@ -36,6 +37,14 @@ package Main {
         в понятную последовательность команд для программы
     }
 
+}
+
+package controllers {
+    class MainController {
+        +startTimer():void
+        Контроллер окна
+        Определяет инициализацию и поведение окна
+    }
 }
 
 @enduml
