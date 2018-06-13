@@ -17,17 +17,20 @@ public class ControlCenter
 	private Executor[] explorers;
 	private Executor[] harvesters;
 	private String explorerAlgorithm = "";
-	private int period = 300;
+	private int period = 150;
 	private long last = 0;
+	public boolean isRunHarvester = false;
 
 	public void upSpeed()
 	{
 		period += 10;
+		System.out.println("Speed algorithm: " + period);
 	}
 
 	public void downSpeed()
 	{
 		period -= 10;
+		System.out.println("Speed algorithm: " + period);
 	}
 
 	public Executor[] getExplorers()
@@ -83,8 +86,22 @@ public class ControlCenter
 		explorers[2] = explorer;
 
 		for (int i = 0; i < countHarvester; i++) {
-			harvesters[i] = new Harvester(this.x, this.y, Direction.Down, game);
+			harvesters[i] = new Harvester(this.x, this.y - 1, Direction.Up, game);
 		}
+	}
+
+	public void setUpHarvester(String text)
+	{
+		Compiler compiler = new Compiler(text);
+		Harvester harvester = (Harvester) harvesters[0];
+		harvester.setVisible(true);
+		try {
+			HashMap<Integer, String[]> algorithm = compiler.prepare();
+			harvester.setAlgorithm(algorithm);
+		} catch (CommandException ex) {
+			// TODO
+		}
+
 	}
 
 	public int getExplorersCount()
@@ -104,9 +121,11 @@ public class ControlCenter
 		if (now - last < period) return;
 		boolean isEnd = false;
 
-		for (Executor harvester : harvesters) {
-			harvester.step();
-			isEnd = isEnd || harvester.isEnd();
+		if (isRunHarvester) {
+			for (Executor harvester : harvesters) {
+				harvester.step();
+				isEnd = isEnd || harvester.isEnd();
+			}
 		}
 
 		for (Executor explorer : explorers) {
@@ -121,7 +140,6 @@ public class ControlCenter
 	public void updateExplorerAlgorithm(String string) throws CommandException
 	{
 		if (!explorerAlgorithm.equals(string)) {
-			System.out.println(string);
 			explorerAlgorithm = string;
 			Compiler compiler = new Compiler(explorerAlgorithm);
 			HashMap<Integer, String[]> algorithm = compiler.prepare();

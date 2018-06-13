@@ -61,10 +61,16 @@ public class MainController
 		message.setTextFill(Color.valueOf("1DE037"));
 	}
 
-	private void pauseDisplay()
+	private void pauseDisplay(String text)
 	{
-		message.setText("Пауза");
+		message.setText(text);
 		message.setTextFill(Color.valueOf("EEE413"));
+	}
+
+	private void gameOverDisplay()
+	{
+		message.setText("КОНЕЦ! ПОЗДРАВЛЯЕМ!!!");
+		message.setTextFill(Color.valueOf("1DE037"));
 	}
 
 	public void startTimer()
@@ -151,13 +157,22 @@ public class MainController
 	{
 		switch (game.getState()) {
 			case EditExplorer:
+				pauseDisplay("Редактор искателя");
+				break;
 			case EditHarvester:
+				pauseDisplay("Редактор сборщика");
+				break;
 			case Pause:
-				pauseDisplay();
+				pauseDisplay("Пауза");
 				break;
 			case Welcome:
+				break;
 			case Play:
 				playDisplay();
+				break;
+			case GameOver:
+				gameOverDisplay();
+				break;
 		}
 	}
 }

@@ -6,5 +6,6 @@ public enum State
 	Play,
 	Pause,
 	EditExplorer,
-	EditHarvester;
+	EditHarvester,
+	GameOver;
 }

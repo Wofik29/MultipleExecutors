@@ -6,11 +6,13 @@ import org.wolf.MultipleExecutors.commands.CommandException;
 import org.wolf.MultipleExecutors.commands.Commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public abstract class Unit implements Executor
 {
 	public static HashMap<Direction, Cell> cellWithDirection = new HashMap<>();
+	protected HashMap<Integer, String[]> algorithm = new HashMap<>();
 
 	static {
 		cellWithDirection.put(Direction.Up, Cell.UnitUp);
@@ -66,7 +68,7 @@ public abstract class Unit implements Executor
 	@Override
 	public boolean isEnd()
 	{
-		return this.current > algorithm.size() - 1;
+		return this.current > algorithm.size();
 	}
 
 	@Override
@@ -166,6 +168,7 @@ public abstract class Unit implements Executor
 			return;
 		}
 		String[] current = algorithm.get(this.current);
+		String[] condition;
 
 		if (current == null) {
 			this.current++;
@@ -178,27 +181,200 @@ public abstract class Unit implements Executor
 			switch (command) {
 				case Forward:
 					stepForward();
+					this.current += 1;
 					break;
 				case Back:
 					stepBack();
+					this.current += 1;
 					break;
 				case TurnLeft:
 					turnLeft();
+					this.current += 1;
 					break;
 				case TurnRight:
 					turnRight();
+					this.current += 1;
 					break;
 				case If:
+					condition = current[1].split(",");
+					if (Commands.valueOf(condition[1]) == Commands.True) {
+						this.current += 1;
+					} else {
+						Cell cell = Cell.valueOf(condition[0]);
+						Commands direction = Commands.valueOf(condition[1]);
+						int switchX = 0;
+						int switchY = 0;
+
+						switch (direction) {
+							case OnBack:
+								switchX = this.stepX * -1;
+								switchY = this.stepY * -1;
+								break;
+							case OnForward:
+								switchX = this.stepX;
+								switchY = this.stepY;
+								break;
+							case OnLeft:
+								switch (this.direction) {
+									case Right:
+										switchX = -1;
+										switchY = 0;
+										break;
+									case Left:
+										switchX = 1;
+										switchY = 0;
+										break;
+									case Down:
+										switchX = 0;
+										switchY = 1;
+										break;
+									case Up:
+										switchX = 0;
+										switchY = -1;
+										break;
+								}
+								break;
+							case OnRight:
+								switch (this.direction) {
+									case Right:
+										switchX = 1;
+										switchY = 0;
+										break;
+									case Left:
+										switchX = -1;
+										switchY = 0;
+										break;
+									case Down:
+										switchX = 0;
+										switchY = -1;
+										break;
+									case Up:
+										switchX = 0;
+										switchY = 1;
+										break;
+								}
+								break;
+						}
+
+						if (condition[2].equals("=")) {
+							if (game.map[this.x + switchX][this.y + switchY] == cell) {
+								this.current++;
+							} else {
+								this.current = Integer.parseInt(current[2]);
+							}
+						} else if (condition[2].equals("!=")) {
+							if (game.map[this.x + switchX][this.y + switchY] != cell) {
+								this.current++;
+							} else {
+								this.current = Integer.parseInt(current[2]);
+							}
+						}
+					}
 					break;
 				case While:
+					condition = current[1].split(",");
+					if (Commands.valueOf(condition[1]) == Commands.True) {
+						this.current += 1;
+					} else {
+						Cell cell = Cell.valueOf(condition[0]);
+						Commands direction = Commands.valueOf(condition[1]);
+						int switchX = 0;
+						int switchY = 0;
+
+						switch (direction) {
+							case OnBack:
+								switchX = this.stepX * -1;
+								switchY = this.stepY * -1;
+								break;
+							case OnForward:
+								switchX = this.stepX;
+								switchY = this.stepY;
+								break;
+							case OnLeft:
+								switch (this.direction) {
+									case Right:
+										switchX = -1;
+										switchY = 0;
+										break;
+									case Left:
+										switchX = 1;
+										switchY = 0;
+										break;
+									case Down:
+										switchX = 0;
+										switchY = 1;
+										break;
+									case Up:
+										switchX = 0;
+										switchY = -1;
+										break;
+								}
+								break;
+							case OnRight:
+								switch (this.direction) {
+									case Right:
+										switchX = 1;
+										switchY = 0;
+										break;
+									case Left:
+										switchX = -1;
+										switchY = 0;
+										break;
+									case Down:
+										switchX = 0;
+										switchY = -1;
+										break;
+									case Up:
+										switchX = 0;
+										switchY = 1;
+										break;
+								}
+								break;
+						}
+
+						if (condition[2].equals("=")) {
+							if (game.map[this.x + switchX][this.y + switchY] == cell) {
+								this.current++;
+							} else {
+								this.current = Integer.parseInt(current[2]);
+							}
+						} else if (condition[2].equals("!=")) {
+							if (game.map[this.x + switchX][this.y + switchY] != cell) {
+								this.current++;
+							} else {
+								this.current = Integer.parseInt(current[2]);
+							}
+						}
+					}
 					break;
 				case End:
+					int ending = Integer.parseInt(current[1]);
+					String[] tmp = algorithm.get(ending);
+					Commands commandTmp = Commands.valueOf(tmp[0]);
+					if (commandTmp == Commands.While) {
+						this.current = ending;
+					} else {
+						this.current++;
+					}
+					break;
+				case True:
+					break;
+				case Find:
+					game.find();
+					this.current++;
+					break;
+				case Else:
+					this.current++;
+					step();
+					break;
+				case Pick:
+					game.pick();
+					this.current++;
 					break;
 			}
 		} catch (CommandException ex) {
 
 		}
-		this.current += 1;
 	}
 
 	@Override

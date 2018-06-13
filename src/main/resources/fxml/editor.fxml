@@ -48,7 +48,7 @@
                             <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                     <children>
-                                        <TextArea fx:id="explorer" layoutX="83.0" layoutY="51.0" prefHeight="200.0" prefWidth="200.0" text="while (true)&#10;if (onforward = plate) &#10;find&#10;else &#10;if (onforward = ground) &#10;forward right&#10;end&#10;if (onforward = ground) &#10;forward left&#10;end&#10;if (onforward = ground) &#10;forward left&#10;end&#10;if (onforward = ground) &#10;forward right&#10;end&#10;if (onforward != ground)&#10;left &#10;end&#10;end" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                        <TextArea fx:id="explorer" layoutX="83.0" layoutY="51.0" prefHeight="200.0" prefWidth="200.0" text="while (true)&#10;if (onforward = plate) &#10;find&#10;end &#10;if (onforward = ground) &#10;forward right&#10;end&#10;if (onforward = plate) &#10;find&#10;end &#10;if (onforward = ground) &#10;forward left&#10;end&#10;if (onforward = plate) &#10;find&#10;end &#10;if (onforward = ground) &#10;forward left&#10;end&#10;if (onforward = plate) &#10;find&#10;end &#10;if (onforward = ground) &#10;forward right&#10;end&#10;if (onforward = plate) &#10;find&#10;end &#10;if (onforward != ground)&#10;left &#10;end&#10;end" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                     </children>
                                 </AnchorPane>
                             </content>
@@ -57,7 +57,7 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TextArea fx:id="explorer1" layoutX="83.0" layoutY="51.0" prefHeight="200.0" prefWidth="200.0" text="while ( onforward != plate)&#10;if (onforward = ground) &#10;forward&#10;else left&#10;end&#10;end" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <TextArea fx:id="harvester" layoutX="83.0" layoutY="51.0" prefHeight="200.0" prefWidth="200.0" text="forward forward forward forward forward forward forward forward&#10;left&#10;forward forward forward forward forward forward forward forward&#10;right&#10;forward forward forward&#10;pick right right&#10;forward forward forward&#10;left&#10;forward forward forward forward forward forward forward forward&#10;right&#10;forward forward forward forward forward forward forward forward&#10;pick" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                         </AnchorPane>
                      </content>

@@ -88,19 +88,23 @@ public class Compiler
 						throw new CommandException("Не найдено начало End");
 					}
 					String[] control = controlStack.pop();
+					algorithm.get(Integer.parseInt(control[3]))[2] = Integer.toString(countCommand);
 					algorithm.put(countCommand++, new String[]{current.toString(), control[3]});
 				} else if (current == Commands.Else) {
 					if (controlStack.isEmpty()) {
 						throw new CommandException("Найдено вторая ветка ветвления("+Commands.Else.userTitle+"), но не найдено начало ветвления("+Commands.If.userTitle+")");
 					}
 					String[] control = controlStack.pop();
-					algorithm.put(countCommand++, new String[]{current.toString(), control[3]});
+					algorithm.get(Integer.parseInt(control[3]))[2] = Integer.toString(countCommand);
+					control[3] = Integer.toString(countCommand);
+					algorithm.put(countCommand++, new String[]{current.toString(), "", control[3]});
 					controlStack.push(control);
 				} else {
 					String[] condition = parseCondition();
 					String conditionStr = condition[0] + ',' + condition[1] + ',' + condition[2];
 					controlStack.push(new String[]{condition[0], condition[1], condition[2], Integer.toString(countCommand)});
-					algorithm.put(countCommand++, new String[]{current.toString(), conditionStr, Integer.toString(countCommand)});
+					algorithm.put(countCommand, new String[]{current.toString(), conditionStr, Integer.toString(countCommand)});
+					countCommand++;
 				}
 			} else {
 				algorithm.put(countCommand++, new String[]{this.current.toString()});
@@ -149,7 +153,7 @@ public class Compiler
 		boolean isWhile = true;
 
 		String[] condition = new String[3];
-		int index = 0;
+		int index = 3;
 		currentWord.delete(0, currentWord.length());
 		while (isWhile) {
 			char nextChar = algorithmText.charAt(currentPositionText);
@@ -163,28 +167,24 @@ public class Compiler
 				}
 			} else if (!isExistRightBracket) {
 				if (allowTitleCell.contains(currentWord.toString())) {
-					condition[index] = allowCell.get(allowTitleCell.indexOf(currentWord.toString())).toString();
-					index++;
+					condition[0] = allowCell.get(allowTitleCell.indexOf(currentWord.toString())).toString();
 					currentWord.delete(0, currentWord.length());
 				} else if (directionTitleCommand.contains(currentWord.toString())) {
-					condition[index] = directionCommand.get(directionTitleCommand.indexOf(currentWord.toString())).toString();
+					condition[1] = directionCommand.get(directionTitleCommand.indexOf(currentWord.toString())).toString();
 					if (currentWord.toString().equals(Commands.True.userTitle)) {
-						condition[1] = "";
+						condition[0] = "";
 						condition[2] = "";
 						while (algorithmText.charAt(currentPositionText++) != ')');
 						break;
 					}
-					index++;
-					currentWord.delete(0, currentWord.length());
-				}
-
-				if (nextChar == '=') {
-					condition[index++] = "=";
 					currentWord.delete(0, currentWord.length());
 				}
 
 				if  (currentWord.indexOf("!=") > -1) {
-					condition[index++] = "!=";
+					condition[2] = "!=";
+					currentWord.delete(0, currentWord.length());
+				} else if (nextChar == '=') {
+					condition[2] = "=";
 					currentWord.delete(0, currentWord.length());
 				}
 

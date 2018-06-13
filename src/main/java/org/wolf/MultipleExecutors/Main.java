@@ -173,6 +173,7 @@ public class Main extends Application
 	private State state = null;
 	private HashMap<State, String> fxmls = new HashMap<>();
 	private String currentFxml = "";
+	private boolean isPick = false;
 
 	public State getState()
 	{
@@ -183,7 +184,7 @@ public class Main extends Application
 	public static int MAX_ALLOW_HARVESTER = 5;
 
 	private static String APP_NAME = "Multiple Executors";
-	private static String VERSION = "v 0.2";
+	private static String VERSION = "v 0.3";
 
 	public static void main(String args[])
 	{
@@ -252,13 +253,14 @@ public class Main extends Application
 			return;
 		}
 
+		State oldState = this.state;
 		this.state = state;
 		if (!currentFxml.equals(fxmls.get(state))) {
 			setLayout();
 			currentFxml = fxmls.get(state);
 		}
 
-		updateState(state);
+		updateState(oldState);
 
 		if (mainController != null) {
 			mainController.update();
@@ -328,13 +330,17 @@ public class Main extends Application
 		primaryStage.setFocused(true);
 	}
 
-	private void updateState(State state)
+	private void updateState(State oldState)
 	{
 		if (state == State.Play) {
-			try {
-				center.updateExplorerAlgorithm(editorController.explorer.getText());
-			} catch (CommandException ex) {
-				editorController.setMessage(ex.getMessage());
+			if (oldState == State.EditHarvester) {
+				center.setUpHarvester(editorController.harvester.getText());
+			} else {
+				try {
+					center.updateExplorerAlgorithm(editorController.explorer.getText());
+				} catch (CommandException ex) {
+					editorController.setMessage(ex.getMessage());
+				}
 			}
 		}
 	}
@@ -396,7 +402,7 @@ public class Main extends Application
 	public void step()
 	{
 		switch (state) {
-			case Pause:
+			case Pause: case GameOver:
 				break;
 			case Play:
 				center.step();
@@ -408,4 +414,22 @@ public class Main extends Application
 		}
 	}
 
+	public void find()
+	{
+		map[8][3].isVisible = true;
+		state = State.EditHarvester;
+		center.isRunHarvester = true;
+		mainController.update();
+	}
+
+	public void pick()
+	{
+		if (isPick) {
+			state = State.GameOver;
+		} else {
+			map[8][3].isVisible = false;
+			isPick = true;
+		}
+		mainController.update();
+	}
 }

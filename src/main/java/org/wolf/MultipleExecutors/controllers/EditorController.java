@@ -12,6 +12,9 @@ public class EditorController
 	public TextArea explorer;
 
 	@FXML
+	public TextArea harvester;
+
+	@FXML
 	public Label message;
 
 	private Main game;

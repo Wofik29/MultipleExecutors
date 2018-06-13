@@ -16,6 +16,7 @@ public enum Commands
 	OnBack("onback", false, true),
 	True("true", false, true),
 	Find("find", false),
+	Pick("pick", false)
 	;
 
 	public String userTitle;
