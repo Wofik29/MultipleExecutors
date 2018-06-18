@@ -18,10 +18,14 @@ public class Canvas extends javafx.scene.canvas.Canvas
 	{
 		super();
 		unitRotate = new HashMap<>();
-		unitRotate.put(Cell.UnitDown, 0.0);
-		unitRotate.put(Cell.UnitUp, 180.0);
-		unitRotate.put(Cell.UnitLeft, 90.0);
-		unitRotate.put(Cell.UnitRight, -90.0);
+		unitRotate.put(Cell.ExplorerDown, 0.0);
+		unitRotate.put(Cell.ExplorerUp, 180.0);
+		unitRotate.put(Cell.ExplorerLeft, 90.0);
+		unitRotate.put(Cell.ExplorerRight, -90.0);
+		unitRotate.put(Cell.HarvesterDown, 0.0);
+		unitRotate.put(Cell.HarvesterUp, 180.0);
+		unitRotate.put(Cell.HarvesterLeft, 90.0);
+		unitRotate.put(Cell.HarvesterRight, -90.0);
 	}
 
 	@Override
@@ -67,7 +71,7 @@ public class Canvas extends javafx.scene.canvas.Canvas
 				double yTranslate = y * widthCell + widthCell/2 + shiftUp;
 				getGraphicsContext2D().translate(xTranslate, yTranslate);
 
-				if (map[x][y].toString().contains("Unit")) {
+				if (map[x][y].toString().contains("Explorer") || map[x][y].toString().contains("Harvester")) {
 					getGraphicsContext2D().rotate(unitRotate.get(map[x][y]));
 					double[] xPoints = {
 							-widthCell/2,
@@ -84,6 +88,10 @@ public class Canvas extends javafx.scene.canvas.Canvas
 					getGraphicsContext2D().fillPolygon(xPoints, yPoints, 3);
 					getGraphicsContext2D().rotate(unitRotate.get(map[x][y]) * -1);
 
+				} else if (map[x][y].toString().contains("Center")) {
+					getGraphicsContext2D().rotate(45);
+					getGraphicsContext2D().fillRect(-widthCell/2, -widthCell/2, widthCell, widthCell);
+					getGraphicsContext2D().rotate(-45);
 				} else {
 
 					getGraphicsContext2D().fillRect(-widthCell/2, -widthCell/2, widthCell, widthCell);

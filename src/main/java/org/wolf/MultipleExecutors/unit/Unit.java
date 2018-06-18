@@ -11,15 +11,8 @@ import java.util.HashMap;
 
 public abstract class Unit implements Executor
 {
-	public static HashMap<Direction, Cell> cellWithDirection = new HashMap<>();
+	public HashMap<Direction, Cell> cellWithDirection = new HashMap<>();
 	protected HashMap<Integer, String[]> algorithm = new HashMap<>();
-
-	static {
-		cellWithDirection.put(Direction.Up, Cell.UnitUp);
-		cellWithDirection.put(Direction.Down, Cell.UnitDown);
-		cellWithDirection.put(Direction.Right, Cell.UnitRight);
-		cellWithDirection.put(Direction.Left, Cell.UnitLeft);
-	}
 
 	protected Main game;
 	protected int x;

@@ -6,11 +6,15 @@ public enum Cell
 {
 	Ground(Color.BROWN, "ground"),
 	Water(Color.AQUA, "water"),
-	UnitUp(Color.RED, "executor"),
-	UnitDown(Color.RED, "executor"),
-	UnitLeft(Color.RED, "executor"),
-	UnitRight(Color.RED, "executor"),
-	Center(Color.BLACK, "center"),
+	ExplorerUp(Color.RED, "explorer"),
+	ExplorerDown(Color.RED, "explorer"),
+	ExplorerLeft(Color.RED, "explorer"),
+	ExplorerRight(Color.RED, "explorer"),
+	HarvesterUp(Color.GREEN, "harvester"),
+	HarvesterDown(Color.GREEN, "harvester"),
+	HarvesterLeft(Color.GREEN, "harvester"),
+	HarvesterRight(Color.GREEN, "harvester"),
+	Center(Color.YELLOW, "center"),
 	Plate(Color.GRAY, "plate")
 	;
 
