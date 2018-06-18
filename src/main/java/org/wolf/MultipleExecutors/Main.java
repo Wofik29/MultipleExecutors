@@ -184,7 +184,7 @@ public class Main extends Application
 	public static int MAX_ALLOW_HARVESTER = 5;
 
 	private static String APP_NAME = "Multiple Executors";
-	private static String VERSION = "v 0.3";
+	private static String VERSION = "v 0.5";
 
 	public static void main(String args[])
 	{
