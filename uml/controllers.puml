@@ -1,0 +1,47 @@
+@startuml
+
+package controllers {
+    class WelcomeController {
+        +setGame():void
+        +initialize():void
+        +onStartAction():void
+        +game: Main
+        +message: Label
+        +countExplorer: TextField
+        +countHarvester: TextField
+    }
+
+    class MainController {
+        +canvas: Canvas
+        +game: Main
+        +parent: AnchorPane
+        +borderPane: BorderPane
+        +message: Label
+        +showEditor(): void
+        +playState(): void
+        +pauseState(): void
+        +playDisplay(): void
+        +pauseDisplay(String): void
+        +gameOverDisplay(): void
+        +startTimer():void
+        +resize():void
+        + setMap(Cell[][]):void
+        +isMap():boolean
+        +setGame(Main):void
+        +update():void
+        -initialize(): void
+    }
+
+    class EditorController {
+        -initialize():void
+        +setGame(Main):void
+        +onStart():void
+        +update():void
+        +setMessage(String):void
+        +explorer: TextArea
+        +harvester: TextArea
+        +message: Label
+        +game: Main
+    }
+}
+@enduml

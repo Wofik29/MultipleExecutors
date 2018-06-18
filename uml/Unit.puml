@@ -2,60 +2,76 @@
 
 package unit {
     interface Executor {
-        +algorithm: Queue
-        +currentStep: int[]
-    	+stepForward():void;
-    	+turnRight():void;
-    	+turnLeft():void;
+        +setAlgorithm(HashMap<Integer, String[]>): void
+        +step(): void
+        +reset(): void
+        +isEnd(): boolean
+        +checkCell(): void
+        +stepForward(): void
+        +stepBack(): void
+        +turnRight(): void
+        +turnLeft(): void
     }
 
-
-    Enum Direction {
-    Перечень направления исполнителя
-        +Up
-        +Down
-        +Left
-        +Right
+    abstract class Unit implements Executor {
+        +Unit(int, int, Direction, game):
+        +getX(): int
+        +getY(): int
+        +setX(int): void
+        +setY(int): void
+        +reset(): void
+        +isEnd(): boolean
+        +setAlgorithm(HashMap<Integer, String[]>): void
+        +setVisible(visible): void
+        +flipMapCell(): void
+        +checkCell(): void
+        +stepForward(): void
+        +stepBack(): void
+        +step(): void
+        +turnRight(): void
+        +turnLeft(): void
+        +cellWithDirection: HashMap<Direction, Cell>
+        +algorithm: HashMap<Integer, String[]>
+        +game: Main
+        +x: int
+        +y: int
+        +stepX: int
+        +stepY: int
+        +startX: int
+        +startY: int
+        +current: int
+        +direction: Direction
+        +currentCell: Cell
+        +visible: boolean
+        +allowCell: ArrayCell<Cell>
     }
 
-    abstract class Unit <implements Executor> {
-        #x: int
-        #y: int
-        #currentCell: Cell
-        #Direction direction
+    class Explorer extends Unit
+    class Harvester extends Unit
 
-        +getX():int
-        +getY():int
-        +setX(int x):void
-        +setY(int y):void
-    }
-
-    class Explorer <extends Unit> {
-
-    }
-
-    class Harvester <extends Unit> {
-
+    enum Direction {
+        Left, Right, Up, Down;
     }
 
     class ControlCenter {
-        -explorers: Executor[]
-        -harvesters: Executor[]
-        -game: Game
-        +step():void
-        Определяет поведения главного здания
-        Должен выпускать исполнителей-искателей
-        По команде должен выпускать исполнителей-сборщиков
-        Дается команда на шаг исполнителя
-        В нем находятся алгоритмы, написанные пользователем
-        Нужно как то запоминать место алгоритма, в котором находится каждый исполнитель
+        +ControlCenter(int, int, int, int, Main): void
+        +upSpeed(): void
+        +downSpeed(): void
+        +getExplorers(): Explorer[]
+        +setUpHarvester(): void
+        +getExplorersCount(): int
+        +getHarvesterCount(): int
+        +step(): void
+        +updateExplorerAlgorithm(String): void
+        +x: int
+        +y: int
+        +explorers: Executor[]
+        +harvesters: Executor[]
+        +explorerAlgorithm: String
+        +period: int
+        +last: long
+        +isRunHarvester: boolean
     }
-
-    Direction -[hidden]- ControlCenter
-
-    Unit --> Executor
-    Explorer -l-> Unit
-    Harvester -u-> Unit
 }
 
 @enduml

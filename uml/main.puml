@@ -2,29 +2,58 @@
 
 package Main {
 
-    class Game {
+    class Main {
+        +{static}APP_NAME: String
+        +{static}VERSION: String
+        +primaryStage: Stage
+        +editorStage: Stage
+        +welcomeController: WelcomeController
+        +mainController: MainController
+        +editorController: EditorController
         +widthMap: int
         +heightMap: int
         -center: ControlCenter
         -map: Cells[]
+        +state: State
+        -fxmls: HashMap<State, String>
         +step():void
-        Определяет общее движение всей игры
-        Определяет кол-во исполнителей
-        Определяет карту
-        Определяет конечную цель - что и сколько собрать
-        Генерирует цели сбора и расбрасывает по карты
+        +allInit():void
+        +initMap():void
+        +setStage(State state):void
+        -setLayout(): void
+        -updateState(): void
+        -initSecondLayout(): void
+        +input(KeyEvent event): void
     }
 
     Enum Cell {
-    Определяет виды клеток
-        +Ground
-        +Water
+        Ground, Water, Center, Plate,
+        ExplorerUp, ExplorerDown,
+        ExplorerRight, ExplorerLeft,
+        HarvesterUp, HarvesterDown,
+        HarvesterRight, HarvesterLeft,
+
+        -color: Color
+        -title: String
+        -value: String
+        -isVisible: boolean
     }
 
+    enum Commands {
+        Forward, TurnLeft, TurnRight, Back,
+        End, If, Else, While, OnForward,
+        OnRight, OnLeft, OnBack, True, Find, Pick,
+
+        +userTitle: String
+    	+isControl: boolean
+    	+isDirection: boolean
+    }
 
     class Canvas {
         -map: Cell[]
         -widthCell: int
+        -shiftLeft: int
+        -shitUp: int
         +setMap(Cell[] cell):void
         +clear():void
         +draw():void
@@ -33,17 +62,146 @@ package Main {
 
 
     class Compiler {
-        Переводит алгоритм, написанный пользователем
-        в понятную последовательность команд для программы
+        -countCommand: int
+        -currentWord: StringBuilder
+        -algorithmText: String
+        -currentPositionText: int
+        -current: Commands
+        -allowTitleCommand: ArrayList<String>
+        -controlTitleCommand: ArrayList<String>
+        -directionTitleCommand: ArrayList<String>
+        -allowTitleCell: ArrayList<String>
+        -allowCommand: ArrayList<Commands>
+        -controlCommand: ArrayList<Commands>
+        -directionCommand: ArrayList<Commands>
+        -allowCell: ArrayList<Cell>
+        -controlStack: Stack<String[]>
+
+        +Compiler(String text)
+        +prepare(): HashMap<Integer, String[]>
+        -getNextCommand(): void
+        -parseCondition(): String[]
+        -isNext(): boolean
     }
 
 }
 
 package controllers {
+    class WelcomeController {
+        +setGame():void
+        +initialize():void
+        +onStartAction():void
+        +game: Main
+        +message: Label
+        +countExplorer: TextField
+        +countHarvester: TextField
+    }
+
     class MainController {
+        +canvas: Canvas
+        +game: Main
+        +parent: AnchorPane
+        +borderPane: BorderPane
+        +message: Label
+        +showEditor(): void
+        +playState(): void
+        +pauseState(): void
+        +playDisplay(): void
+        +pauseDisplay(String): void
+        +gameOverDisplay(): void
         +startTimer():void
-        Контроллер окна
-        Определяет инициализацию и поведение окна
+        +resize():void
+        + setMap(Cell[][]):void
+        +isMap():boolean
+        +setGame(Main):void
+        +update():void
+        -initialize(): void
+    }
+
+    class EditorController {
+        -initialize():void
+        +setGame(Main):void
+        +onStart():void
+        +update():void
+        +setMessage(String):void
+        +explorer: TextArea
+        +harvester: TextArea
+        +message: Label
+        +game: Main
+    }
+}
+
+package unit {
+    interface Executor {
+        +setAlgorithm(HashMap<Integer, String[]>): void
+        +step(): void
+        +reset(): void
+        +isEnd(): boolean
+        +checkCell(): void
+        +stepForward(): void
+        +stepBack(): void
+        +turnRight(): void
+        +turnLeft(): void
+    }
+
+    abstract class Unit implements Executor {
+        +Unit(int, int, Direction, game):
+        +getX(): int
+        +getY(): int
+        +setX(int): void
+        +setY(int): void
+        +reset(): void
+        +isEnd(): boolean
+        +setAlgorithm(HashMap<Integer, String[]>): void
+        +setVisible(visible): void
+        +flipMapCell(): void
+        +checkCell(): void
+        +stepForward(): void
+        +stepBack(): void
+        +step(): void
+        +turnRight(): void
+        +turnLeft(): void
+        +cellWithDirection: HashMap<Direction, Cell>
+        +algorithm: HashMap<Integer, String[]>
+        +game: Main
+        +x: int
+        +y: int
+        +stepX: int
+        +stepY: int
+        +startX: int
+        +startY: int
+        +current: int
+        +direction: Direction
+        +currentCell: Cell
+        +visible: boolean
+        +allowCell: ArrayCell<Cell>
+    }
+
+    class Explorer extends Unit
+    class Harvester extends Unit
+
+    enum Direction {
+        Left, Right, Up, Down;
+    }
+
+    class ControlCenter {
+        +ControlCenter(int, int, int, int, Main): void
+        +upSpeed(): void
+        +downSpeed(): void
+        +getExplorers(): Explorer[]
+        +setUpHarvester(): void
+        +getExplorersCount(): int
+        +getHarvesterCount(): int
+        +step(): void
+        +updateExplorerAlgorithm(String): void
+        +x: int
+        +y: int
+        +explorers: Executor[]
+        +harvesters: Executor[]
+        +explorerAlgorithm: String
+        +period: int
+        +last: long
+        +isRunHarvester: boolean
     }
 }
 
